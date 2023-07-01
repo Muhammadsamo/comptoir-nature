@@ -11,7 +11,18 @@ export default defineNuxtConfig({
   },
 
   image: {
-    // Options
+    presets: {
+      cover: {
+        modifiers: {
+          fit: "cover",
+          format: "webp",
+        },
+      },
+    },
+    cloudinary: {
+      baseURL:
+        "https://res.cloudinary.com/monkeyride/image/upload/c_scale,h_500/v1686102952/vancleem_com/",
+    },
   },
 
   devtools: { enabled: true },
@@ -21,5 +32,8 @@ export default defineNuxtConfig({
       tailwindcss: {},
       autoprefixer: {},
     },
+  },
+  nitro: {
+    preset: "netlify",
   },
 });
