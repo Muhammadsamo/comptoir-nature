@@ -1,7 +1,7 @@
 <template>
-  <main class="h-[calc(100vh-160px)]">
+  <main class="h-[calc(100vh-160px)] bg-[#2D2D2D]">
     <div
-      class="grid grid-cols-3 items-center gap-[70px] justify-between bg-[#2D2D2D] h-[100%] px-[50px]"
+      class="grid grid-cols-3 items-center gap-[70px] justify-between lg:max-w-[1440px] h-[100%] px-[50px] lg:mx-auto"
     >
       <div class="col-start-1 col-end-2 justify-self-end w-[300px]">
         <h1
@@ -20,7 +20,7 @@
         </ul>
       </div>
       <div
-        class="col-start-2 col-end-3 text-[#E9E3DE] border-[#B2896B] border-[2px]"
+        class="col-start-2 col-end-3 text-[#E9E3DE] border-[#B2896B] border-[2px] max-w-[340px] justify-self-center"
       >
         <p class="py-8 px-7">
           Chez Comptoir Nature, nous estimons que chaque client est unique, et
