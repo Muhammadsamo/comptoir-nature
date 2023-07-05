@@ -1,18 +1,28 @@
 <template>
-  <main>
-    <div class="grid bg-[#2D2D2D] px-[50px]">
-      <div class="grid col-start-1">
-        <h1 class="text-[#E9E3DE]">Nos Produits</h1>
-        <ul class="underline underline-offset-8 text-[#B2896B]">
-          <li>Meubles</li>
-          <li>Tissus</li>
-          <li>Art de la Table</li>
-          <li>Luminaires</li>
-          <li>Article de Décoration</li>
+  <main class="h-[calc(100vh-160px)]">
+    <div
+      class="grid grid-cols-3 items-center gap-[70px] justify-between bg-[#2D2D2D] h-[100%] px-[50px]"
+    >
+      <div class="col-start-1 col-end-2 justify-self-end w-[300px]">
+        <h1
+          class="text-[#E9E3DE] font-[Merriweather] tracking-[2.4px] text-[24px] leading-[45px] border-b border-[#B2896B]"
+        >
+          Nos Produits
+        </h1>
+        <ul
+          class="text-[#B2896B] font-bold tracking-[1.6px] text-[16px] leading-8 font-Montserrat"
+        >
+          <li class="border-b border-[#B2896B]">Meubles</li>
+          <li class="border-b border-[#B2896B]">Tissus</li>
+          <li class="border-b border-[#B2896B]">Art de la Table</li>
+          <li class="border-b border-[#B2896B]">Luminaires</li>
+          <li class="border-b border-[#B2896B]">Article de Décoration</li>
         </ul>
       </div>
-      <div class="border-[#B2896B] border-[2px]">
-        <p>
+      <div
+        class="col-start-2 col-end-3 text-[#E9E3DE] border-[#B2896B] border-[2px]"
+      >
+        <p class="py-8 px-7">
           Chez Comptoir Nature, nous estimons que chaque client est unique, et
           par conséquent, votre espace devrait l'être aussi. Nous travaillons en
           étroite collaboration avec vous pour comprendre vos personnalités et
@@ -26,14 +36,20 @@
           un intérieur à votre image.
         </p>
       </div>
-      <div class="grid col-start-1">
-        <h1 class="text-[#E9E3DE]">Nos Services</h1>
-        <ul class="underline underline-offset-8 text-[#B2896B]">
-          <li>Listes de Mariages</li>
-          <li>Conseil en Décoration</li>
-          <li>Livraisons</li>
-          <li>Parking</li>
-          <li>Paiement en 4 Fois</li>
+      <div class="col-start-3 w-[300px]">
+        <h1
+          class="text-[#E9E3DE] font-[Merriweather] tracking-[2.4px] text-[24px] leading-[45px] border-b border-[#B2896B]"
+        >
+          Nos Services
+        </h1>
+        <ul
+          class="text-[#B2896B] font-bold tracking-[1.6px] text-[16px] leading-8 font-Montserrat"
+        >
+          <li class="border-b border-[#B2896B]">Listes de Mariages</li>
+          <li class="border-b border-[#B2896B]">Conseil en Décoration</li>
+          <li class="border-b border-[#B2896B]">Livraisons</li>
+          <li class="border-b border-[#B2896B]">Parking</li>
+          <li class="border-b border-[#B2896B]">Paiement en 4 Fois</li>
         </ul>
       </div>
     </div>
