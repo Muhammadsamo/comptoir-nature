@@ -8,7 +8,7 @@ const client_manifest = {
     "resourceType": "script",
     "module": true,
     "css": [],
-    "file": "error-404.f90bf145.js",
+    "file": "error-404.7b135e71.js",
     "imports": [
       "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
     ],
@@ -28,7 +28,7 @@ const client_manifest = {
     "resourceType": "script",
     "module": true,
     "css": [],
-    "file": "error-500.d5bbb2f3.js",
+    "file": "error-500.a630d2f0.js",
     "imports": [
       "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
     ],
@@ -54,7 +54,7 @@ const client_manifest = {
       "node_modules/.pnpm/@nuxt+ui-templates@1.2.0/node_modules/@nuxt/ui-templates/dist/templates/error-404.vue",
       "node_modules/.pnpm/@nuxt+ui-templates@1.2.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.vue"
     ],
-    "file": "entry.cd32c098.js",
+    "file": "entry.605a2dcc.js",
     "isEntry": true,
     "src": "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
   },
@@ -65,7 +65,7 @@ const client_manifest = {
   "pages/Contact.vue": {
     "resourceType": "script",
     "module": true,
-    "file": "Contact.95dbb3af.js",
+    "file": "Contact.b9ca3c18.js",
     "imports": [
       "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
     ],
@@ -75,7 +75,7 @@ const client_manifest = {
   "pages/ProductsAndServices.vue": {
     "resourceType": "script",
     "module": true,
-    "file": "ProductsAndServices.08e09c25.js",
+    "file": "ProductsAndServices.0e6a2256.js",
     "imports": [
       "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
     ],
@@ -85,7 +85,7 @@ const client_manifest = {
   "pages/index.vue": {
     "resourceType": "script",
     "module": true,
-    "file": "index.3b74ff53.js",
+    "file": "index.b2d0d8f8.js",
     "imports": [
       "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
     ],

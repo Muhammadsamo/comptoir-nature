@@ -531,12 +531,12 @@ const errorHandler = (async function errorhandler(error, event) {
   event.node.res.end(html);
 });
 
-const _tz1jKG = lazyEventHandler(() => {
-  const opts = useRuntimeConfig().ipx;
+const _sZZntJ = lazyEventHandler(() => {
+  const opts = useRuntimeConfig().ipx || {};
   const ipxOptions = {
-    ...opts || {},
+    ...opts,
     // TODO: Switch to storage API when ipx supports it
-    dir: fileURLToPath(new URL(opts.dir, globalThis._importMeta_.url))
+    dir: opts.dir ? fileURLToPath(new URL(opts.dir, globalThis._importMeta_.url)) : void 0
   };
   const ipx = createIPX(ipxOptions);
   const middleware = createIPXMiddleware(ipx);
@@ -550,7 +550,7 @@ const _lazy_mzWxck = () => import('../handlers/renderer.mjs');
 
 const handlers = [
   { route: '/__nuxt_error', handler: _lazy_mzWxck, lazy: true, middleware: false, method: undefined },
-  { route: '/_ipx/**', handler: _tz1jKG, lazy: false, middleware: false, method: undefined },
+  { route: '/_ipx/**', handler: _sZZntJ, lazy: false, middleware: false, method: undefined },
   { route: '/**', handler: _lazy_mzWxck, lazy: true, middleware: false, method: undefined }
 ];
 

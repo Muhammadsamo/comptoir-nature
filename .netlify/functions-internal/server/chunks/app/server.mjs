@@ -1,4 +1,4 @@
-import { version, getCurrentInstance, inject, ref, watchEffect, watch, defineComponent, computed, h, resolveComponent, useSSRContext, createApp, reactive, unref, hasInjectionContext, provide, onErrorCaptured, onServerPrefetch, createVNode, resolveDynamicComponent, toRef, shallowRef, isReadonly, defineAsyncComponent, isRef, effectScope, markRaw, isShallow, isReactive, toRaw, mergeProps, nextTick, Suspense, Transition, withCtx, createTextVNode } from 'vue';
+import { version, defineAsyncComponent, getCurrentInstance, inject, ref, watchEffect, watch, defineComponent, computed, h, resolveComponent, useSSRContext, createApp, reactive, unref, mergeProps, withCtx, createVNode, createTextVNode, hasInjectionContext, provide, onErrorCaptured, onServerPrefetch, resolveDynamicComponent, toRef, shallowRef, isReadonly, isRef, effectScope, markRaw, isShallow, isReactive, toRaw, nextTick, Suspense, Transition } from 'vue';
 import { $fetch } from 'ofetch';
 import { createHooks } from 'hookable';
 import { getContext, executeAsync } from 'unctx';
@@ -8,7 +8,7 @@ import { hasProtocol, parseURL, parseQuery, encodeParam, withTrailingSlash, with
 import { renderSSRHead } from '@unhead/ssr';
 import { composableNames, getActiveHead, createServerHead as createServerHead$1 } from 'unhead';
 import { defineHeadPlugin } from '@unhead/shared';
-import { ssrRenderSuspense, ssrRenderComponent, ssrRenderVNode, ssrRenderAttrs } from 'vue/server-renderer';
+import { ssrRenderAttrs, ssrRenderComponent, ssrRenderSuspense, ssrRenderVNode } from 'vue/server-renderer';
 import { defu } from 'defu';
 import { a as useRuntimeConfig$1 } from '../nitro/netlify.mjs';
 import 'node-fetch-native/polyfill';
@@ -929,8 +929,24 @@ const revive_payload_server_699ZCUunvA = /* @__PURE__ */ defineNuxtPlugin({
     }
   }
 });
+const LazyTheFooter = defineAsyncComponent(() => Promise.resolve().then(function() {
+  return TheFooter;
+}).then((r) => r.default));
+const LazyTheHeader = defineAsyncComponent(() => Promise.resolve().then(function() {
+  return TheHeader;
+}).then((r) => r.default));
+const lazyGlobalComponents = [
+  ["TheFooter", LazyTheFooter],
+  ["TheHeader", LazyTheHeader]
+];
 const components_plugin_KR1HBZs4kY = /* @__PURE__ */ defineNuxtPlugin({
-  name: "nuxt:global-components"
+  name: "nuxt:global-components",
+  setup(nuxtApp) {
+    for (const [name, component] of lazyGlobalComponents) {
+      nuxtApp.vueApp.component(name, component);
+      nuxtApp.vueApp.component("Lazy" + name, component);
+    }
+  }
 });
 const unhead_6CIXkUzmoe = /* @__PURE__ */ defineNuxtPlugin({
   name: "nuxt:head",
@@ -1027,6 +1043,29 @@ function parseSize(input = "") {
     }
   }
 }
+function parseDensities(input = "") {
+  if (input === void 0 || !input.length) {
+    return [];
+  }
+  const densities = input.split(" ").map((size) => parseInt(size.replace("x", "")));
+  return densities.filter((value, index) => densities.indexOf(value) === index);
+}
+function parseSizes(input) {
+  const sizes = {};
+  if (typeof input === "string") {
+    for (const entry2 of input.split(/[\s,]+/).filter((e) => e)) {
+      const s = entry2.split(":");
+      if (s.length !== 2) {
+        sizes[s[0].trim()] = s[0].trim();
+      } else {
+        sizes[s[0].trim()] = s[1].trim();
+      }
+    }
+  } else {
+    Object.assign(sizes, input);
+  }
+  return sizes;
+}
 function createImage(globalOptions) {
   const ctx = {
     options: globalOptions
@@ -1117,158 +1156,125 @@ function getPreset(ctx, name) {
   return ctx.options.presets[name];
 }
 function getSizes(ctx, input, opts) {
-  var _a, _b;
+  var _a, _b, _c, _d, _e;
   const width = parseSize((_a = opts.modifiers) == null ? void 0 : _a.width);
   const height = parseSize((_b = opts.modifiers) == null ? void 0 : _b.height);
+  const sizes = parseSizes(opts.sizes);
+  const densities = ((_c = opts.densities) == null ? void 0 : _c.trim()) ? parseDensities(opts.densities.trim()) : ctx.options.densities;
+  if (densities.length === 0) {
+    throw new Error("'densities' must not be empty, configure to '1' to render regular size only (DPR 1.0)");
+  }
   const hwRatio = width && height ? height / width : 0;
-  const variants = [];
-  const sizes = {};
-  if (typeof opts.sizes === "string") {
-    for (const entry2 of opts.sizes.split(/[\s,]+/).filter((e) => e)) {
-      const s = entry2.split(":");
-      if (s.length !== 2) {
+  const sizeVariants = [];
+  const srcsetVariants = [];
+  if (Object.keys(sizes).length > 1) {
+    for (const key in sizes) {
+      const variant = getSizesVariant(key, String(sizes[key]), height, hwRatio, ctx);
+      if (variant === void 0) {
         continue;
       }
-      sizes[s[0].trim()] = s[1].trim();
+      sizeVariants.push({
+        size: variant.size,
+        screenMaxWidth: variant.screenMaxWidth,
+        media: `(max-width: ${variant.screenMaxWidth}px)`
+      });
+      for (const density of densities) {
+        srcsetVariants.push({
+          width: variant._cWidth * density,
+          src: getVariantSrc(ctx, input, opts, variant, density)
+        });
+      }
     }
+    finaliseSizeVariants(sizeVariants);
   } else {
-    Object.assign(sizes, opts.sizes);
+    for (const density of densities) {
+      const key = Object.keys(sizes)[0];
+      let variant = getSizesVariant(key, String(sizes[key]), height, hwRatio, ctx);
+      if (variant === void 0) {
+        variant = {
+          size: "",
+          screenMaxWidth: 0,
+          _cWidth: (_d = opts.modifiers) == null ? void 0 : _d.width,
+          _cHeight: (_e = opts.modifiers) == null ? void 0 : _e.height
+        };
+      }
+      srcsetVariants.push({
+        width: density,
+        src: getVariantSrc(ctx, input, opts, variant, density)
+      });
+    }
   }
-  for (const key in sizes) {
-    const screenMaxWidth = ctx.options.screens && ctx.options.screens[key] || parseInt(key);
-    let size = String(sizes[key]);
-    const isFluid = size.endsWith("vw");
-    if (!isFluid && /^\d+$/.test(size)) {
-      size = size + "px";
-    }
-    if (!isFluid && !size.endsWith("px")) {
-      continue;
-    }
-    let _cWidth = parseInt(size);
-    if (!screenMaxWidth || !_cWidth) {
-      continue;
-    }
-    if (isFluid) {
-      _cWidth = Math.round(_cWidth / 100 * screenMaxWidth);
-    }
-    const _cHeight = hwRatio ? Math.round(_cWidth * hwRatio) : height;
-    variants.push({
-      width: _cWidth,
-      size,
-      screenMaxWidth,
-      media: `(max-width: ${screenMaxWidth}px)`,
-      src: ctx.$img(input, { ...opts.modifiers, width: _cWidth, height: _cHeight }, opts)
-    });
-  }
-  variants.sort((v1, v2) => v1.screenMaxWidth - v2.screenMaxWidth);
-  const defaultVar = variants[variants.length - 1];
-  if (defaultVar) {
-    defaultVar.media = "";
-  }
+  finaliseSrcsetVariants(srcsetVariants);
+  const defaultVariant = srcsetVariants[srcsetVariants.length - 1];
+  const sizesVal = sizeVariants.length ? sizeVariants.map((v) => `${v.media ? v.media + " " : ""}${v.size}`).join(", ") : void 0;
+  const suffix = sizesVal ? "w" : "x";
+  const srcsetVal = srcsetVariants.map((v) => `${v.src} ${v.width}${suffix}`).join(", ");
   return {
-    sizes: variants.map((v) => `${v.media ? v.media + " " : ""}${v.size}`).join(", "),
-    srcset: variants.map((v) => `${v.src} ${v.width}w`).join(", "),
-    src: defaultVar == null ? void 0 : defaultVar.src
+    sizes: sizesVal,
+    srcset: srcsetVal,
+    src: defaultVariant == null ? void 0 : defaultVariant.src
   };
 }
-const convertHexToRgbFormat = (value) => value.startsWith("#") ? value.replace("#", "rgb_") : value;
-const removePathExtension = (value) => value.replace(/\.[^/.]+$/, "");
-const operationsGenerator$1 = createOperationsGenerator({
-  keyMap: {
-    fit: "c",
-    width: "w",
-    height: "h",
-    format: "f",
-    quality: "q",
-    background: "b",
-    rotate: "a",
-    roundCorner: "r",
-    gravity: "g",
-    effect: "e",
-    color: "co",
-    flags: "fl",
-    dpr: "dpr",
-    opacity: "o",
-    overlay: "l",
-    underlay: "u",
-    transformation: "t",
-    zoom: "z",
-    colorSpace: "cs",
-    customFunc: "fn",
-    density: "dn",
-    aspectRatio: "ar"
-  },
-  valueMap: {
-    fit: {
-      fill: "fill",
-      inside: "pad",
-      outside: "lpad",
-      cover: "fit",
-      contain: "scale",
-      minCover: "mfit",
-      minInside: "mpad",
-      thumbnail: "thumb",
-      cropping: "crop",
-      coverLimit: "limit"
-    },
-    format: {
-      jpeg: "jpg"
-    },
-    background(value) {
-      return convertHexToRgbFormat(value);
-    },
-    color(value) {
-      return convertHexToRgbFormat(value);
-    },
-    gravity: {
-      auto: "auto",
-      subject: "auto:subject",
-      face: "face",
-      sink: "sink",
-      faceCenter: "face:center",
-      multipleFaces: "faces",
-      multipleFacesCenter: "faces:center",
-      north: "north",
-      northEast: "north_east",
-      northWest: "north_west",
-      west: "west",
-      southWest: "south_west",
-      south: "south",
-      southEast: "south_east",
-      east: "east",
-      center: "center"
-    }
-  },
-  joinWith: ",",
-  formatter: (key, value) => `${key}_${value}`
-});
-const defaultModifiers = {
-  format: "auto",
-  quality: "auto"
-};
-const getImage$1 = (src, { modifiers = {}, baseURL: baseURL2 = "/" } = {}) => {
-  const mergeModifiers = defu(modifiers, defaultModifiers);
-  const operations = operationsGenerator$1(mergeModifiers);
-  const remoteFolderMapping = baseURL2.match(/\/image\/upload\/(.*)/);
-  if ((remoteFolderMapping == null ? void 0 : remoteFolderMapping.length) >= 1) {
-    const remoteFolder = remoteFolderMapping[1];
-    const baseURLWithoutRemoteFolder = baseURL2.replace(remoteFolder, "");
-    return {
-      url: joinURL(baseURLWithoutRemoteFolder, operations, remoteFolder, src)
-    };
-  } else if (/\/image\/fetch\/?/.test(baseURL2)) {
-    src = encodePath(src);
-  } else {
-    src = removePathExtension(src);
+function getSizesVariant(key, size, height, hwRatio, ctx) {
+  const screenMaxWidth = ctx.options.screens && ctx.options.screens[key] || parseInt(key);
+  const isFluid = size.endsWith("vw");
+  if (!isFluid && /^\d+$/.test(size)) {
+    size = size + "px";
   }
+  if (!isFluid && !size.endsWith("px")) {
+    return void 0;
+  }
+  let _cWidth = parseInt(size);
+  if (!screenMaxWidth || !_cWidth) {
+    return void 0;
+  }
+  if (isFluid) {
+    _cWidth = Math.round(_cWidth / 100 * screenMaxWidth);
+  }
+  const _cHeight = hwRatio ? Math.round(_cWidth * hwRatio) : height;
   return {
-    url: joinURL(baseURL2, operations, src)
+    size,
+    screenMaxWidth,
+    _cWidth,
+    _cHeight
   };
-};
-const cloudinaryRuntime$FUUiBjjKa3 = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  getImage: getImage$1
-});
+}
+function getVariantSrc(ctx, input, opts, variant, density) {
+  return ctx.$img(
+    input,
+    {
+      ...opts.modifiers,
+      width: variant._cWidth ? variant._cWidth * density : void 0,
+      height: variant._cHeight ? variant._cHeight * density : void 0
+    },
+    opts
+  );
+}
+function finaliseSizeVariants(sizeVariants) {
+  sizeVariants.sort((v1, v2) => v1.screenMaxWidth - v2.screenMaxWidth);
+  if (sizeVariants[sizeVariants.length - 1]) {
+    sizeVariants[sizeVariants.length - 1].media = "";
+  }
+  let previousMedia = null;
+  for (let i = sizeVariants.length - 1; i >= 0; i--) {
+    const sizeVariant = sizeVariants[i];
+    if (sizeVariant.media === previousMedia) {
+      sizeVariants.splice(i, 1);
+    }
+    previousMedia = sizeVariant.media;
+  }
+}
+function finaliseSrcsetVariants(srcsetVariants) {
+  srcsetVariants.sort((v1, v2) => v1.width - v2.width);
+  let previousWidth = null;
+  for (let i = srcsetVariants.length - 1; i >= 0; i--) {
+    const sizeVariant = srcsetVariants[i];
+    if (sizeVariant.width === previousWidth) {
+      srcsetVariants.splice(i, 1);
+    }
+    previousWidth = sizeVariant.width;
+  }
+}
 const operationsGenerator = createOperationsGenerator({
   keyMap: {
     format: "f",
@@ -1298,7 +1304,7 @@ const getImage = (src, { modifiers = {}, baseURL: baseURL2 } = {}, ctx) => {
 };
 const validateDomains = true;
 const supportsAlias = true;
-const ipxRuntime$BM1Q7Q5Elm = /* @__PURE__ */ Object.freeze({
+const ipxRuntime$TbtjAehD6C = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   getImage,
   supportsAlias,
@@ -1324,11 +1330,17 @@ const imageOptions = {
   },
   "provider": "ipx",
   "domains": [],
-  "alias": {}
+  "alias": {},
+  "densities": [
+    1,
+    2
+  ],
+  "format": [
+    "webp"
+  ]
 };
 imageOptions.providers = {
-  ["cloudinary"]: { provider: cloudinaryRuntime$FUUiBjjKa3, defaults: { "baseURL": "https://res.cloudinary.com/monkeyride/image/upload/c_scale,h_500/v1686102952/vancleem_com/" } },
-  ["ipx"]: { provider: ipxRuntime$BM1Q7Q5Elm, defaults: void 0 }
+  ["ipx"]: { provider: ipxRuntime$TbtjAehD6C, defaults: void 0 }
 };
 const useImage = () => {
   const config = /* @__PURE__ */ useRuntimeConfig();
@@ -1353,6 +1365,7 @@ const baseImageProps = {
   preset: { type: String, default: void 0 },
   provider: { type: String, default: void 0 },
   sizes: { type: [Object, String], default: void 0 },
+  densities: { type: String, default: void 0 },
   preload: { type: Boolean, default: void 0 },
   // <img> attributes
   width: { type: [String, Number], default: void 0 },
@@ -1395,13 +1408,14 @@ const useBaseImage = (props) => {
       decoding: props.decoding
     };
   });
+  const $img = useImage();
   const modifiers = computed(() => {
     return {
       ...props.modifiers,
       width: parseSize(props.width),
       height: parseSize(props.height),
       format: props.format,
-      quality: props.quality,
+      quality: props.quality || $img.options.quality,
       background: props.background,
       fit: props.fit
     };
@@ -1427,6 +1441,7 @@ const __nuxt_component_1$1 = /* @__PURE__ */ defineComponent({
     const sizes = computed(() => $img.getSizes(props.src, {
       ..._base.options.value,
       sizes: props.sizes,
+      densities: props.densities,
       modifiers: {
         ..._base.modifiers.value,
         width: parseSize(props.width),
@@ -1435,7 +1450,7 @@ const __nuxt_component_1$1 = /* @__PURE__ */ defineComponent({
     }));
     const attrs = computed(() => {
       const attrs2 = { ..._base.attrs.value, "data-nuxt-img": "" };
-      if (props.sizes) {
+      if (!props.placeholder || placeholderLoaded.value) {
         attrs2.sizes = sizes.value.sizes;
         attrs2.srcset = sizes.value.srcset;
       }
@@ -1483,7 +1498,6 @@ const __nuxt_component_1$1 = /* @__PURE__ */ defineComponent({
     nuxtApp.isHydrating;
     return () => h("img", {
       ref: imgEl,
-      key: src.value,
       src: src.value,
       ...{ onerror: "this.setAttribute('data-error', 1)" },
       ...attrs.value,
@@ -1566,6 +1580,10 @@ _sfc_main$4.setup = (props, ctx) => {
   return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
 };
 const __nuxt_component_0 = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["ssrRender", _sfc_ssrRender$2]]);
+const TheHeader = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  default: __nuxt_component_0
+});
 const interpolatePath = (route, match) => {
   return match.path.replace(/(:\w+)\([^)]+\)/g, "$1").replace(/(:\w+)[?+*]/g, "$1").replace(/:\w+/g, (r) => {
     var _a;
@@ -1699,6 +1717,10 @@ _sfc_main$3.setup = (props, ctx) => {
   return _sfc_setup$3 ? _sfc_setup$3(props, ctx) : void 0;
 };
 const __nuxt_component_2 = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["ssrRender", _sfc_ssrRender$1]]);
+const TheFooter = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  default: __nuxt_component_2
+});
 const _sfc_main$2 = {};
 function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
   const _component_TheHeader = __nuxt_component_0;
