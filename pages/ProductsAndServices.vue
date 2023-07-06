@@ -43,13 +43,43 @@
           Nos Services
         </h1>
         <ul
-          class="text-[#B2896B] font-bold tracking-[1.6px] text-[16px] leading-8 font-Montserrat"
+          class="text-[#B2896B] font-bold tracking-[1.6px] text-[16px] leading-9 font-Montserrat"
         >
-          <li class="border-b border-[#B2896B]">Listes de Mariages</li>
-          <li class="border-b border-[#B2896B]">Conseil en Décoration</li>
-          <li class="border-b border-[#B2896B]">Livraisons</li>
-          <li class="border-b border-[#B2896B]">Parking</li>
-          <li class="border-b border-[#B2896B]">Paiement en 4 Fois</li>
+          <li
+            class="border-b border-[#B2896B] flex items-center justify-between"
+          >
+            Listes de Mariages<span class="inline-block">
+              <NuxtImg src="/productsAndServices/servicesicon.svg"></NuxtImg>
+            </span>
+          </li>
+          <li
+            class="border-b border-[#B2896B] flex items-center justify-between"
+          >
+            Conseil en Décoration<span class="inline-block">
+              <NuxtImg src="/productsAndServices/servicesicon.svg"></NuxtImg>
+            </span>
+          </li>
+          <li
+            class="border-b border-[#B2896B] flex items-center justify-between"
+          >
+            Livraisons<span class="inline-block">
+              <NuxtImg src="/productsAndServices/servicesicon.svg"></NuxtImg>
+            </span>
+          </li>
+          <li
+            class="border-b border-[#B2896B] flex items-center justify-between"
+          >
+            Parking<span class="inline-block">
+              <NuxtImg src="/productsAndServices/servicesicon.svg"></NuxtImg>
+            </span>
+          </li>
+          <li
+            class="border-b border-[#B2896B] flex items-center justify-between"
+          >
+            Paiement en 4 Fois<span class="inline-block">
+              <NuxtImg src="/productsAndServices/servicesicon.svg"></NuxtImg>
+            </span>
+          </li>
         </ul>
       </div>
     </div>
