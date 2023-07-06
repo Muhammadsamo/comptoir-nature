@@ -17,7 +17,8 @@ export default defineNuxtConfig({
   },
 
   image: {
-    provider: "public",
+    provider: "static",
+    dir: "public",
     presets: {
       cover: {
         modifiers: {
