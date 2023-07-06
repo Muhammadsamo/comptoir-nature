@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   target: "static",
   modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt", "@nuxt/image"],
+
   pinia: {
     autoImports: [
       // automatically imports `defineStore`
@@ -10,7 +11,13 @@ export default defineNuxtConfig({
     ],
   },
 
+  components: {
+    global: true,
+    dirs: ["~/components"],
+  },
+
   image: {
+    provider: "public",
     presets: {
       cover: {
         modifiers: {
@@ -18,10 +25,6 @@ export default defineNuxtConfig({
           format: "webp",
         },
       },
-    },
-    cloudinary: {
-      baseURL:
-        "https://res.cloudinary.com/monkeyride/image/upload/c_scale,h_500/v1686102952/vancleem_com/",
     },
   },
 
