@@ -17,6 +17,8 @@ export default defineNuxtConfig({
   },
 
   image: {
+    provider: "ipx",
+    dir: "./",
     presets: {
       cover: {
         modifiers: {
