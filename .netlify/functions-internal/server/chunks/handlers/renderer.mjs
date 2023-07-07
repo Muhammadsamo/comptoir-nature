@@ -4,19 +4,6 @@ import { stringify, uneval } from 'devalue';
 import { renderToString } from 'vue/server-renderer';
 import { u as useNitroApp, a as useRuntimeConfig, g as getRouteRules } from '../nitro/netlify.mjs';
 import { joinURL } from 'ufo';
-import 'node-fetch-native/polyfill';
-import 'defu';
-import 'radix3';
-import 'destr';
-import 'scule';
-import 'klona';
-import 'ofetch';
-import 'unenv/runtime/fetch/index';
-import 'hookable';
-import 'ohash';
-import 'unstorage';
-import 'node:url';
-import 'ipx';
 
 function defineRenderHandler(handler) {
   return eventHandler(async (event) => {
@@ -295,5 +282,10 @@ function splitPayload(ssrContext) {
   };
 }
 
-export { renderer as default };
+const renderer$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: renderer
+});
+
+export { publicAssetsURL as p, renderer$1 as r };
 //# sourceMappingURL=renderer.mjs.map

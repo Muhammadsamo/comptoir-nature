@@ -1,7 +1,7 @@
 <template>
   <main class="min-h-[calc(100vh-160px)]">
     <div
-      class="grid lg:grid-cols-2 min-h-[calc(100vh-160px)] items-center gap-[100px]"
+      class="grid lg:grid-cols-2 min-h-[calc(100vh-160px)] items-center gap-[100px] max-w-[1440px] mx-auto"
     >
       <div
         class="col-start-1 border border-[#B2896B] px-[3px] pt-[5px] pb-[0] justify-self-end"

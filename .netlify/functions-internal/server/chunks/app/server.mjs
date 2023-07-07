@@ -1,14 +1,14 @@
-import { version, defineAsyncComponent, getCurrentInstance, inject, ref, watchEffect, watch, defineComponent, computed, h, resolveComponent, useSSRContext, createApp, reactive, unref, mergeProps, withCtx, createVNode, createTextVNode, hasInjectionContext, provide, onErrorCaptured, onServerPrefetch, resolveDynamicComponent, toRef, shallowRef, isReadonly, isRef, effectScope, markRaw, isShallow, isReactive, toRaw, nextTick, Suspense, Transition } from 'vue';
+import { hasInjectionContext, getCurrentInstance, version, defineAsyncComponent, inject, ref, watchEffect, watch, defineComponent, computed, h, resolveComponent, useSSRContext, createApp, reactive, unref, mergeProps, withCtx, createVNode, createTextVNode, provide, onErrorCaptured, onServerPrefetch, resolveDynamicComponent, toRef, shallowRef, isReadonly, isRef, effectScope, markRaw, isShallow, isReactive, toRaw, nextTick, Suspense, Transition } from 'vue';
 import { $fetch } from 'ofetch';
 import { createHooks } from 'hookable';
 import { getContext, executeAsync } from 'unctx';
 import { createMemoryHistory, createRouter, START_LOCATION, RouterView } from 'vue-router';
 import { createError as createError$1, sanitizeStatusCode } from 'h3';
-import { hasProtocol, parseURL, parseQuery, encodeParam, withTrailingSlash, withoutTrailingSlash, withQuery, joinURL, withLeadingSlash, encodePath } from 'ufo';
+import { hasProtocol, parseURL, parseQuery, withTrailingSlash, withoutTrailingSlash, withQuery, joinURL } from 'ufo';
 import { renderSSRHead } from '@unhead/ssr';
-import { composableNames, getActiveHead, createServerHead as createServerHead$1 } from 'unhead';
+import { getActiveHead, createServerHead as createServerHead$1 } from 'unhead';
 import { defineHeadPlugin } from '@unhead/shared';
-import { ssrRenderAttrs, ssrRenderComponent, ssrRenderSuspense, ssrRenderVNode } from 'vue/server-renderer';
+import { ssrRenderAttrs, ssrRenderComponent, ssrRenderAttr, ssrRenderSuspense, ssrRenderVNode } from 'vue/server-renderer';
 import { defu } from 'defu';
 import { a as useRuntimeConfig$1 } from '../nitro/netlify.mjs';
 import 'node-fetch-native/polyfill';
@@ -314,7 +314,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/Contact-861ce244.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/Contact-14e9b034.mjs').then((m) => m.default || m)
   },
   {
     name: "ProductsAndServices",
@@ -322,7 +322,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/ProductsAndServices-47725baf.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/ProductsAndServices-06e05657.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -330,7 +330,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/index-2e2f8e81.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/index-86fc96e1.mjs').then((m) => m.default || m)
   }
 ];
 const appHead = { "meta": [{ "name": "viewport", "content": "width=device-width, initial-scale=1" }, { "charset": "utf-8" }], "link": [], "style": [], "script": [], "noscript": [] };
@@ -407,8 +407,303 @@ const validate = /* @__PURE__ */ defineNuxtRouteMiddleware(async (to) => {
     return result;
   }
 });
+function resolveUnref(r) {
+  return typeof r === "function" ? r() : unref(r);
+}
+function resolveUnrefHeadInput(ref2, lastKey = "") {
+  if (ref2 instanceof Promise)
+    return ref2;
+  const root = resolveUnref(ref2);
+  if (!ref2 || !root)
+    return root;
+  if (Array.isArray(root))
+    return root.map((r) => resolveUnrefHeadInput(r, lastKey));
+  if (typeof root === "object") {
+    return Object.fromEntries(
+      Object.entries(root).map(([k, v]) => {
+        if (k === "titleTemplate" || k.startsWith("on"))
+          return [k, unref(v)];
+        return [k, resolveUnrefHeadInput(v, k)];
+      })
+    );
+  }
+  return root;
+}
+const Vue3 = version.startsWith("3");
+const headSymbol = "usehead";
+function injectHead() {
+  return getCurrentInstance() && inject(headSymbol) || getActiveHead();
+}
+function vueInstall(head) {
+  const plugin2 = {
+    install(app) {
+      if (Vue3) {
+        app.config.globalProperties.$unhead = head;
+        app.config.globalProperties.$head = head;
+        app.provide(headSymbol, head);
+      }
+    }
+  };
+  return plugin2.install;
+}
+function createServerHead(options = {}) {
+  const head = createServerHead$1({
+    ...options,
+    plugins: [
+      VueReactiveUseHeadPlugin(),
+      ...(options == null ? void 0 : options.plugins) || []
+    ]
+  });
+  head.install = vueInstall(head);
+  return head;
+}
+function VueReactiveUseHeadPlugin() {
+  return defineHeadPlugin({
+    hooks: {
+      "entries:resolve": function(ctx) {
+        for (const entry2 of ctx.entries)
+          entry2.resolvedInput = resolveUnrefHeadInput(entry2.input);
+      }
+    }
+  });
+}
+function clientUseHead(input, options = {}) {
+  const head = injectHead();
+  const deactivated = ref(false);
+  const resolvedInput = ref({});
+  watchEffect(() => {
+    resolvedInput.value = deactivated.value ? {} : resolveUnrefHeadInput(input);
+  });
+  const entry2 = head.push(resolvedInput.value, options);
+  watch(resolvedInput, (e) => {
+    entry2.patch(e);
+  });
+  getCurrentInstance();
+  return entry2;
+}
+function serverUseHead(input, options = {}) {
+  const head = injectHead();
+  return head.push(input, options);
+}
+function useHead(input, options = {}) {
+  var _a;
+  const head = injectHead();
+  if (head) {
+    const isBrowser = !!((_a = head.resolvedOptions) == null ? void 0 : _a.document);
+    if (options.mode === "server" && isBrowser || options.mode === "client" && !isBrowser)
+      return;
+    return isBrowser ? clientUseHead(input, options) : serverUseHead(input, options);
+  }
+}
+function definePayloadReducer(name, reduce) {
+  {
+    useNuxtApp().ssrContext._payloadReducers[name] = reduce;
+  }
+}
+const firstNonUndefined = (...args) => args.find((arg) => arg !== void 0);
+const DEFAULT_EXTERNAL_REL_ATTRIBUTE = "noopener noreferrer";
+/*! @__NO_SIDE_EFFECTS__ */
+function defineNuxtLink(options) {
+  const componentName = options.componentName || "NuxtLink";
+  const resolveTrailingSlashBehavior = (to, resolve) => {
+    if (!to || options.trailingSlash !== "append" && options.trailingSlash !== "remove") {
+      return to;
+    }
+    const normalizeTrailingSlash = options.trailingSlash === "append" ? withTrailingSlash : withoutTrailingSlash;
+    if (typeof to === "string") {
+      return normalizeTrailingSlash(to, true);
+    }
+    const path = "path" in to ? to.path : resolve(to).path;
+    return {
+      ...to,
+      name: void 0,
+      // named routes would otherwise always override trailing slash behavior
+      path: normalizeTrailingSlash(path, true)
+    };
+  };
+  return /* @__PURE__ */ defineComponent({
+    name: componentName,
+    props: {
+      // Routing
+      to: {
+        type: [String, Object],
+        default: void 0,
+        required: false
+      },
+      href: {
+        type: [String, Object],
+        default: void 0,
+        required: false
+      },
+      // Attributes
+      target: {
+        type: String,
+        default: void 0,
+        required: false
+      },
+      rel: {
+        type: String,
+        default: void 0,
+        required: false
+      },
+      noRel: {
+        type: Boolean,
+        default: void 0,
+        required: false
+      },
+      // Prefetching
+      prefetch: {
+        type: Boolean,
+        default: void 0,
+        required: false
+      },
+      noPrefetch: {
+        type: Boolean,
+        default: void 0,
+        required: false
+      },
+      // Styling
+      activeClass: {
+        type: String,
+        default: void 0,
+        required: false
+      },
+      exactActiveClass: {
+        type: String,
+        default: void 0,
+        required: false
+      },
+      prefetchedClass: {
+        type: String,
+        default: void 0,
+        required: false
+      },
+      // Vue Router's `<RouterLink>` additional props
+      replace: {
+        type: Boolean,
+        default: void 0,
+        required: false
+      },
+      ariaCurrentValue: {
+        type: String,
+        default: void 0,
+        required: false
+      },
+      // Edge cases handling
+      external: {
+        type: Boolean,
+        default: void 0,
+        required: false
+      },
+      // Slot API
+      custom: {
+        type: Boolean,
+        default: void 0,
+        required: false
+      }
+    },
+    setup(props, { slots }) {
+      const router = useRouter();
+      const to = computed(() => {
+        const path = props.to || props.href || "";
+        return resolveTrailingSlashBehavior(path, router.resolve);
+      });
+      const isExternal = computed(() => {
+        if (props.external) {
+          return true;
+        }
+        if (props.target && props.target !== "_self") {
+          return true;
+        }
+        if (typeof to.value === "object") {
+          return false;
+        }
+        return to.value === "" || hasProtocol(to.value, { acceptRelative: true });
+      });
+      const prefetched = ref(false);
+      const el = void 0;
+      const elRef = void 0;
+      return () => {
+        var _a, _b;
+        if (!isExternal.value) {
+          const routerLinkProps = {
+            ref: elRef,
+            to: to.value,
+            activeClass: props.activeClass || options.activeClass,
+            exactActiveClass: props.exactActiveClass || options.exactActiveClass,
+            replace: props.replace,
+            ariaCurrentValue: props.ariaCurrentValue,
+            custom: props.custom
+          };
+          if (!props.custom) {
+            if (prefetched.value) {
+              routerLinkProps.class = props.prefetchedClass || options.prefetchedClass;
+            }
+            routerLinkProps.rel = props.rel;
+          }
+          return h(
+            resolveComponent("RouterLink"),
+            routerLinkProps,
+            slots.default
+          );
+        }
+        const href = typeof to.value === "object" ? ((_a = router.resolve(to.value)) == null ? void 0 : _a.href) ?? null : to.value || null;
+        const target = props.target || null;
+        const rel = props.noRel ? null : firstNonUndefined(props.rel, options.externalRelAttribute, href ? DEFAULT_EXTERNAL_REL_ATTRIBUTE : "") || null;
+        const navigate = () => navigateTo(href, { replace: props.replace });
+        if (props.custom) {
+          if (!slots.default) {
+            return null;
+          }
+          return slots.default({
+            href,
+            navigate,
+            get route() {
+              if (!href) {
+                return void 0;
+              }
+              const url = parseURL(href);
+              return {
+                path: url.pathname,
+                fullPath: url.pathname,
+                get query() {
+                  return parseQuery(url.search);
+                },
+                hash: url.hash,
+                // stub properties for compat with vue-router
+                params: {},
+                name: void 0,
+                matched: [],
+                redirectedFrom: void 0,
+                meta: {},
+                href
+              };
+            },
+            rel,
+            target,
+            isExternal: isExternal.value,
+            isActive: false,
+            isExactActive: false
+          });
+        }
+        return h("a", { ref: el, href, rel, target }, (_b = slots.default) == null ? void 0 : _b.call(slots));
+      };
+    }
+  });
+}
+const __nuxt_component_0$1 = /* @__PURE__ */ defineNuxtLink({ componentName: "NuxtLink" });
+const page_45global = /* @__PURE__ */ defineNuxtRouteMiddleware((to, from) => {
+  if (from.path === "/" || from.path === "/ProductsAndServices" && to.path === "/Contact") {
+    to.meta.pageTransition = { name: "page-left" };
+    from.meta.pageTransition = { name: "page-left" };
+  } else {
+    to.meta.pageTransition = { name: "page-right" };
+    from.meta.pageTransition = { name: "page-right" };
+  }
+});
 const globalMiddleware = [
-  validate
+  validate,
+  page_45global
 ];
 const namedMiddleware = {};
 const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
@@ -609,297 +904,6 @@ function createPinia() {
   });
   return pinia;
 }
-function resolveUnref(r) {
-  return typeof r === "function" ? r() : unref(r);
-}
-function resolveUnrefHeadInput(ref2, lastKey = "") {
-  if (ref2 instanceof Promise)
-    return ref2;
-  const root = resolveUnref(ref2);
-  if (!ref2 || !root)
-    return root;
-  if (Array.isArray(root))
-    return root.map((r) => resolveUnrefHeadInput(r, lastKey));
-  if (typeof root === "object") {
-    return Object.fromEntries(
-      Object.entries(root).map(([k, v]) => {
-        if (k === "titleTemplate" || k.startsWith("on"))
-          return [k, unref(v)];
-        return [k, resolveUnrefHeadInput(v, k)];
-      })
-    );
-  }
-  return root;
-}
-const Vue3 = version.startsWith("3");
-const headSymbol = "usehead";
-function injectHead() {
-  return getCurrentInstance() && inject(headSymbol) || getActiveHead();
-}
-function vueInstall(head) {
-  const plugin2 = {
-    install(app) {
-      if (Vue3) {
-        app.config.globalProperties.$unhead = head;
-        app.config.globalProperties.$head = head;
-        app.provide(headSymbol, head);
-      }
-    }
-  };
-  return plugin2.install;
-}
-function createServerHead(options = {}) {
-  const head = createServerHead$1({
-    ...options,
-    plugins: [
-      VueReactiveUseHeadPlugin(),
-      ...(options == null ? void 0 : options.plugins) || []
-    ]
-  });
-  head.install = vueInstall(head);
-  return head;
-}
-function VueReactiveUseHeadPlugin() {
-  return defineHeadPlugin({
-    hooks: {
-      "entries:resolve": function(ctx) {
-        for (const entry2 of ctx.entries)
-          entry2.resolvedInput = resolveUnrefHeadInput(entry2.input);
-      }
-    }
-  });
-}
-function clientUseHead(input, options = {}) {
-  const head = injectHead();
-  const deactivated = ref(false);
-  const resolvedInput = ref({});
-  watchEffect(() => {
-    resolvedInput.value = deactivated.value ? {} : resolveUnrefHeadInput(input);
-  });
-  const entry2 = head.push(resolvedInput.value, options);
-  watch(resolvedInput, (e) => {
-    entry2.patch(e);
-  });
-  getCurrentInstance();
-  return entry2;
-}
-function serverUseHead(input, options = {}) {
-  const head = injectHead();
-  return head.push(input, options);
-}
-function useHead(input, options = {}) {
-  var _a;
-  const head = injectHead();
-  if (head) {
-    const isBrowser = !!((_a = head.resolvedOptions) == null ? void 0 : _a.document);
-    if (options.mode === "server" && isBrowser || options.mode === "client" && !isBrowser)
-      return;
-    return isBrowser ? clientUseHead(input, options) : serverUseHead(input, options);
-  }
-}
-const coreComposableNames = [
-  "injectHead"
-];
-({
-  "@unhead/vue": [...coreComposableNames, ...composableNames]
-});
-function definePayloadReducer(name, reduce) {
-  {
-    useNuxtApp().ssrContext._payloadReducers[name] = reduce;
-  }
-}
-const firstNonUndefined = (...args) => args.find((arg) => arg !== void 0);
-const DEFAULT_EXTERNAL_REL_ATTRIBUTE = "noopener noreferrer";
-/*! @__NO_SIDE_EFFECTS__ */
-function defineNuxtLink(options) {
-  const componentName = options.componentName || "NuxtLink";
-  const resolveTrailingSlashBehavior = (to, resolve) => {
-    if (!to || options.trailingSlash !== "append" && options.trailingSlash !== "remove") {
-      return to;
-    }
-    const normalizeTrailingSlash = options.trailingSlash === "append" ? withTrailingSlash : withoutTrailingSlash;
-    if (typeof to === "string") {
-      return normalizeTrailingSlash(to, true);
-    }
-    const path = "path" in to ? to.path : resolve(to).path;
-    return {
-      ...to,
-      name: void 0,
-      // named routes would otherwise always override trailing slash behavior
-      path: normalizeTrailingSlash(path, true)
-    };
-  };
-  return /* @__PURE__ */ defineComponent({
-    name: componentName,
-    props: {
-      // Routing
-      to: {
-        type: [String, Object],
-        default: void 0,
-        required: false
-      },
-      href: {
-        type: [String, Object],
-        default: void 0,
-        required: false
-      },
-      // Attributes
-      target: {
-        type: String,
-        default: void 0,
-        required: false
-      },
-      rel: {
-        type: String,
-        default: void 0,
-        required: false
-      },
-      noRel: {
-        type: Boolean,
-        default: void 0,
-        required: false
-      },
-      // Prefetching
-      prefetch: {
-        type: Boolean,
-        default: void 0,
-        required: false
-      },
-      noPrefetch: {
-        type: Boolean,
-        default: void 0,
-        required: false
-      },
-      // Styling
-      activeClass: {
-        type: String,
-        default: void 0,
-        required: false
-      },
-      exactActiveClass: {
-        type: String,
-        default: void 0,
-        required: false
-      },
-      prefetchedClass: {
-        type: String,
-        default: void 0,
-        required: false
-      },
-      // Vue Router's `<RouterLink>` additional props
-      replace: {
-        type: Boolean,
-        default: void 0,
-        required: false
-      },
-      ariaCurrentValue: {
-        type: String,
-        default: void 0,
-        required: false
-      },
-      // Edge cases handling
-      external: {
-        type: Boolean,
-        default: void 0,
-        required: false
-      },
-      // Slot API
-      custom: {
-        type: Boolean,
-        default: void 0,
-        required: false
-      }
-    },
-    setup(props, { slots }) {
-      const router = useRouter();
-      const to = computed(() => {
-        const path = props.to || props.href || "";
-        return resolveTrailingSlashBehavior(path, router.resolve);
-      });
-      const isExternal = computed(() => {
-        if (props.external) {
-          return true;
-        }
-        if (props.target && props.target !== "_self") {
-          return true;
-        }
-        if (typeof to.value === "object") {
-          return false;
-        }
-        return to.value === "" || hasProtocol(to.value, { acceptRelative: true });
-      });
-      const prefetched = ref(false);
-      const el = void 0;
-      const elRef = void 0;
-      return () => {
-        var _a, _b;
-        if (!isExternal.value) {
-          const routerLinkProps = {
-            ref: elRef,
-            to: to.value,
-            activeClass: props.activeClass || options.activeClass,
-            exactActiveClass: props.exactActiveClass || options.exactActiveClass,
-            replace: props.replace,
-            ariaCurrentValue: props.ariaCurrentValue,
-            custom: props.custom
-          };
-          if (!props.custom) {
-            if (prefetched.value) {
-              routerLinkProps.class = props.prefetchedClass || options.prefetchedClass;
-            }
-            routerLinkProps.rel = props.rel;
-          }
-          return h(
-            resolveComponent("RouterLink"),
-            routerLinkProps,
-            slots.default
-          );
-        }
-        const href = typeof to.value === "object" ? ((_a = router.resolve(to.value)) == null ? void 0 : _a.href) ?? null : to.value || null;
-        const target = props.target || null;
-        const rel = props.noRel ? null : firstNonUndefined(props.rel, options.externalRelAttribute, href ? DEFAULT_EXTERNAL_REL_ATTRIBUTE : "") || null;
-        const navigate = () => navigateTo(href, { replace: props.replace });
-        if (props.custom) {
-          if (!slots.default) {
-            return null;
-          }
-          return slots.default({
-            href,
-            navigate,
-            get route() {
-              if (!href) {
-                return void 0;
-              }
-              const url = parseURL(href);
-              return {
-                path: url.pathname,
-                fullPath: url.pathname,
-                get query() {
-                  return parseQuery(url.search);
-                },
-                hash: url.hash,
-                // stub properties for compat with vue-router
-                params: {},
-                name: void 0,
-                matched: [],
-                redirectedFrom: void 0,
-                meta: {},
-                href
-              };
-            },
-            rel,
-            target,
-            isExternal: isExternal.value,
-            isActive: false,
-            isExactActive: false
-          });
-        }
-        return h("a", { ref: el, href, rel, target }, (_b = slots.default) == null ? void 0 : _b.call(slots));
-      };
-    }
-  });
-}
-const __nuxt_component_0$1 = /* @__PURE__ */ defineNuxtLink({ componentName: "NuxtLink" });
 const plugin = /* @__PURE__ */ defineNuxtPlugin((nuxtApp) => {
   const pinia = createPinia();
   nuxtApp.vueApp.use(pinia);
@@ -929,6 +933,8 @@ const revive_payload_server_699ZCUunvA = /* @__PURE__ */ defineNuxtPlugin({
     }
   }
 });
+const LazyPrimaryButton = defineAsyncComponent(() => import('./_nuxt/PrimaryButton-6d63f26b.mjs').then((r) => r.default));
+const LazyTermsOfUse = defineAsyncComponent(() => import('./_nuxt/TermsOfUse-9c760aad.mjs').then((r) => r.default));
 const LazyTheFooter = defineAsyncComponent(() => Promise.resolve().then(function() {
   return TheFooter;
 }).then((r) => r.default));
@@ -936,6 +942,8 @@ const LazyTheHeader = defineAsyncComponent(() => Promise.resolve().then(function
   return TheHeader;
 }).then((r) => r.default));
 const lazyGlobalComponents = [
+  ["PrimaryButton", LazyPrimaryButton],
+  ["TermsOfUse", LazyTermsOfUse],
   ["TheFooter", LazyTheFooter],
   ["TheHeader", LazyTheHeader]
 ];
@@ -975,536 +983,8 @@ const plugins = [
   components_plugin_KR1HBZs4kY,
   unhead_6CIXkUzmoe
 ];
-async function imageMeta(_ctx, url) {
-  const meta = await _imageMeta(url).catch((err) => {
-    console.error("Failed to get image meta for " + url, err + "");
-    return {
-      width: 0,
-      height: 0,
-      ratio: 0
-    };
-  });
-  return meta;
-}
-async function _imageMeta(url) {
-  {
-    const imageMeta2 = await import('image-meta').then((r) => r.imageMeta);
-    const data = await fetch(url).then((res) => res.buffer());
-    const metadata = imageMeta2(data);
-    if (!metadata) {
-      throw new Error(`No metadata could be extracted from the image \`${url}\`.`);
-    }
-    const { width, height } = metadata;
-    const meta = {
-      width,
-      height,
-      ratio: width && height ? width / height : void 0
-    };
-    return meta;
-  }
-}
-function createMapper(map) {
-  return (key) => {
-    return key ? map[key] || key : map.missingValue;
-  };
-}
-function createOperationsGenerator({ formatter, keyMap, joinWith = "/", valueMap } = {}) {
-  if (!formatter) {
-    formatter = (key, value) => `${key}=${value}`;
-  }
-  if (keyMap && typeof keyMap !== "function") {
-    keyMap = createMapper(keyMap);
-  }
-  const map = valueMap || {};
-  Object.keys(map).forEach((valueKey) => {
-    if (typeof map[valueKey] !== "function") {
-      map[valueKey] = createMapper(map[valueKey]);
-    }
-  });
-  return (modifiers = {}) => {
-    const operations = Object.entries(modifiers).filter(([_, value]) => typeof value !== "undefined").map(([key, value]) => {
-      const mapper = map[key];
-      if (typeof mapper === "function") {
-        value = mapper(modifiers[key]);
-      }
-      key = typeof keyMap === "function" ? keyMap(key) : key;
-      return formatter(key, value);
-    });
-    return operations.join(joinWith);
-  };
-}
-function parseSize(input = "") {
-  if (typeof input === "number") {
-    return input;
-  }
-  if (typeof input === "string") {
-    if (input.replace("px", "").match(/^\d+$/g)) {
-      return parseInt(input, 10);
-    }
-  }
-}
-function parseDensities(input = "") {
-  if (input === void 0 || !input.length) {
-    return [];
-  }
-  const densities = input.split(" ").map((size) => parseInt(size.replace("x", "")));
-  return densities.filter((value, index) => densities.indexOf(value) === index);
-}
-function parseSizes(input) {
-  const sizes = {};
-  if (typeof input === "string") {
-    for (const entry2 of input.split(/[\s,]+/).filter((e) => e)) {
-      const s = entry2.split(":");
-      if (s.length !== 2) {
-        sizes[s[0].trim()] = s[0].trim();
-      } else {
-        sizes[s[0].trim()] = s[1].trim();
-      }
-    }
-  } else {
-    Object.assign(sizes, input);
-  }
-  return sizes;
-}
-function createImage(globalOptions) {
-  const ctx = {
-    options: globalOptions
-  };
-  const getImage2 = (input, options = {}) => {
-    const image = resolveImage(ctx, input, options);
-    return image;
-  };
-  const $img = (input, modifiers = {}, options = {}) => {
-    return getImage2(input, {
-      ...options,
-      modifiers: defu(modifiers, options.modifiers || {})
-    }).url;
-  };
-  for (const presetName in globalOptions.presets) {
-    $img[presetName] = (source, modifiers, options) => $img(source, modifiers, { ...globalOptions.presets[presetName], ...options });
-  }
-  $img.options = globalOptions;
-  $img.getImage = getImage2;
-  $img.getMeta = (input, options) => getMeta(ctx, input, options);
-  $img.getSizes = (input, options) => getSizes(ctx, input, options);
-  ctx.$img = $img;
-  return $img;
-}
-async function getMeta(ctx, input, options) {
-  const image = resolveImage(ctx, input, { ...options });
-  if (typeof image.getMeta === "function") {
-    return await image.getMeta();
-  } else {
-    return await imageMeta(ctx, image.url);
-  }
-}
-function resolveImage(ctx, input, options) {
-  var _a, _b;
-  if (typeof input !== "string" || input === "") {
-    throw new TypeError(`input must be a string (received ${typeof input}: ${JSON.stringify(input)})`);
-  }
-  if (input.startsWith("data:")) {
-    return {
-      url: input
-    };
-  }
-  const { provider, defaults } = getProvider(ctx, options.provider || ctx.options.provider);
-  const preset = getPreset(ctx, options.preset);
-  input = hasProtocol(input) ? input : withLeadingSlash(input);
-  if (!provider.supportsAlias) {
-    for (const base in ctx.options.alias) {
-      if (input.startsWith(base)) {
-        input = joinURL(ctx.options.alias[base], input.substr(base.length));
-      }
-    }
-  }
-  if (provider.validateDomains && hasProtocol(input)) {
-    const inputHost = parseURL(input).host;
-    if (!ctx.options.domains.find((d) => d === inputHost)) {
-      return {
-        url: input
-      };
-    }
-  }
-  const _options = defu(options, preset, defaults);
-  _options.modifiers = { ..._options.modifiers };
-  const expectedFormat = _options.modifiers.format;
-  if ((_a = _options.modifiers) == null ? void 0 : _a.width) {
-    _options.modifiers.width = parseSize(_options.modifiers.width);
-  }
-  if ((_b = _options.modifiers) == null ? void 0 : _b.height) {
-    _options.modifiers.height = parseSize(_options.modifiers.height);
-  }
-  const image = provider.getImage(input, _options, ctx);
-  image.format = image.format || expectedFormat || "";
-  return image;
-}
-function getProvider(ctx, name) {
-  const provider = ctx.options.providers[name];
-  if (!provider) {
-    throw new Error("Unknown provider: " + name);
-  }
-  return provider;
-}
-function getPreset(ctx, name) {
-  if (!name) {
-    return {};
-  }
-  if (!ctx.options.presets[name]) {
-    throw new Error("Unknown preset: " + name);
-  }
-  return ctx.options.presets[name];
-}
-function getSizes(ctx, input, opts) {
-  var _a, _b, _c, _d, _e;
-  const width = parseSize((_a = opts.modifiers) == null ? void 0 : _a.width);
-  const height = parseSize((_b = opts.modifiers) == null ? void 0 : _b.height);
-  const sizes = parseSizes(opts.sizes);
-  const densities = ((_c = opts.densities) == null ? void 0 : _c.trim()) ? parseDensities(opts.densities.trim()) : ctx.options.densities;
-  if (densities.length === 0) {
-    throw new Error("'densities' must not be empty, configure to '1' to render regular size only (DPR 1.0)");
-  }
-  const hwRatio = width && height ? height / width : 0;
-  const sizeVariants = [];
-  const srcsetVariants = [];
-  if (Object.keys(sizes).length > 1) {
-    for (const key in sizes) {
-      const variant = getSizesVariant(key, String(sizes[key]), height, hwRatio, ctx);
-      if (variant === void 0) {
-        continue;
-      }
-      sizeVariants.push({
-        size: variant.size,
-        screenMaxWidth: variant.screenMaxWidth,
-        media: `(max-width: ${variant.screenMaxWidth}px)`
-      });
-      for (const density of densities) {
-        srcsetVariants.push({
-          width: variant._cWidth * density,
-          src: getVariantSrc(ctx, input, opts, variant, density)
-        });
-      }
-    }
-    finaliseSizeVariants(sizeVariants);
-  } else {
-    for (const density of densities) {
-      const key = Object.keys(sizes)[0];
-      let variant = getSizesVariant(key, String(sizes[key]), height, hwRatio, ctx);
-      if (variant === void 0) {
-        variant = {
-          size: "",
-          screenMaxWidth: 0,
-          _cWidth: (_d = opts.modifiers) == null ? void 0 : _d.width,
-          _cHeight: (_e = opts.modifiers) == null ? void 0 : _e.height
-        };
-      }
-      srcsetVariants.push({
-        width: density,
-        src: getVariantSrc(ctx, input, opts, variant, density)
-      });
-    }
-  }
-  finaliseSrcsetVariants(srcsetVariants);
-  const defaultVariant = srcsetVariants[srcsetVariants.length - 1];
-  const sizesVal = sizeVariants.length ? sizeVariants.map((v) => `${v.media ? v.media + " " : ""}${v.size}`).join(", ") : void 0;
-  const suffix = sizesVal ? "w" : "x";
-  const srcsetVal = srcsetVariants.map((v) => `${v.src} ${v.width}${suffix}`).join(", ");
-  return {
-    sizes: sizesVal,
-    srcset: srcsetVal,
-    src: defaultVariant == null ? void 0 : defaultVariant.src
-  };
-}
-function getSizesVariant(key, size, height, hwRatio, ctx) {
-  const screenMaxWidth = ctx.options.screens && ctx.options.screens[key] || parseInt(key);
-  const isFluid = size.endsWith("vw");
-  if (!isFluid && /^\d+$/.test(size)) {
-    size = size + "px";
-  }
-  if (!isFluid && !size.endsWith("px")) {
-    return void 0;
-  }
-  let _cWidth = parseInt(size);
-  if (!screenMaxWidth || !_cWidth) {
-    return void 0;
-  }
-  if (isFluid) {
-    _cWidth = Math.round(_cWidth / 100 * screenMaxWidth);
-  }
-  const _cHeight = hwRatio ? Math.round(_cWidth * hwRatio) : height;
-  return {
-    size,
-    screenMaxWidth,
-    _cWidth,
-    _cHeight
-  };
-}
-function getVariantSrc(ctx, input, opts, variant, density) {
-  return ctx.$img(
-    input,
-    {
-      ...opts.modifiers,
-      width: variant._cWidth ? variant._cWidth * density : void 0,
-      height: variant._cHeight ? variant._cHeight * density : void 0
-    },
-    opts
-  );
-}
-function finaliseSizeVariants(sizeVariants) {
-  sizeVariants.sort((v1, v2) => v1.screenMaxWidth - v2.screenMaxWidth);
-  if (sizeVariants[sizeVariants.length - 1]) {
-    sizeVariants[sizeVariants.length - 1].media = "";
-  }
-  let previousMedia = null;
-  for (let i = sizeVariants.length - 1; i >= 0; i--) {
-    const sizeVariant = sizeVariants[i];
-    if (sizeVariant.media === previousMedia) {
-      sizeVariants.splice(i, 1);
-    }
-    previousMedia = sizeVariant.media;
-  }
-}
-function finaliseSrcsetVariants(srcsetVariants) {
-  srcsetVariants.sort((v1, v2) => v1.width - v2.width);
-  let previousWidth = null;
-  for (let i = srcsetVariants.length - 1; i >= 0; i--) {
-    const sizeVariant = srcsetVariants[i];
-    if (sizeVariant.width === previousWidth) {
-      srcsetVariants.splice(i, 1);
-    }
-    previousWidth = sizeVariant.width;
-  }
-}
-const operationsGenerator = createOperationsGenerator({
-  keyMap: {
-    format: "f",
-    fit: "fit",
-    width: "w",
-    height: "h",
-    resize: "s",
-    quality: "q",
-    background: "b"
-  },
-  joinWith: "&",
-  formatter: (key, val) => encodeParam(key) + "_" + encodeParam(val)
-});
-const getImage = (src, { modifiers = {}, baseURL: baseURL2 } = {}, ctx) => {
-  if (modifiers.width && modifiers.height) {
-    modifiers.resize = `${modifiers.width}x${modifiers.height}`;
-    delete modifiers.width;
-    delete modifiers.height;
-  }
-  const params = operationsGenerator(modifiers) || "_";
-  if (!baseURL2) {
-    baseURL2 = joinURL(ctx.options.nuxt.baseURL, "/_ipx");
-  }
-  return {
-    url: joinURL(baseURL2, params, encodePath(src))
-  };
-};
-const validateDomains = true;
-const supportsAlias = true;
-const ipxRuntime$TbtjAehD6C = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  getImage,
-  supportsAlias,
-  validateDomains
-});
-const imageOptions = {
-  "screens": {
-    "xs": 320,
-    "sm": 640,
-    "md": 768,
-    "lg": 1024,
-    "xl": 1280,
-    "xxl": 1536,
-    "2xl": 1536
-  },
-  "presets": {
-    "cover": {
-      "modifiers": {
-        "fit": "cover",
-        "format": "webp"
-      }
-    }
-  },
-  "provider": "ipx",
-  "domains": [],
-  "alias": {},
-  "densities": [
-    1,
-    2
-  ],
-  "format": [
-    "webp"
-  ]
-};
-imageOptions.providers = {
-  ["ipx"]: { provider: ipxRuntime$TbtjAehD6C, defaults: void 0 }
-};
-const useImage = () => {
-  const config = /* @__PURE__ */ useRuntimeConfig();
-  const nuxtApp = useNuxtApp();
-  return nuxtApp.$img || nuxtApp._img || (nuxtApp._img = createImage({
-    ...imageOptions,
-    nuxt: {
-      baseURL: config.app.baseURL
-    }
-  }));
-};
-const baseImageProps = {
-  // input source
-  src: { type: String, required: true },
-  // modifiers
-  format: { type: String, default: void 0 },
-  quality: { type: [Number, String], default: void 0 },
-  background: { type: String, default: void 0 },
-  fit: { type: String, default: void 0 },
-  modifiers: { type: Object, default: void 0 },
-  // options
-  preset: { type: String, default: void 0 },
-  provider: { type: String, default: void 0 },
-  sizes: { type: [Object, String], default: void 0 },
-  densities: { type: String, default: void 0 },
-  preload: { type: Boolean, default: void 0 },
-  // <img> attributes
-  width: { type: [String, Number], default: void 0 },
-  height: { type: [String, Number], default: void 0 },
-  alt: { type: String, default: void 0 },
-  referrerpolicy: { type: String, default: void 0 },
-  usemap: { type: String, default: void 0 },
-  longdesc: { type: String, default: void 0 },
-  ismap: { type: Boolean, default: void 0 },
-  loading: { type: String, default: void 0 },
-  crossorigin: {
-    type: [Boolean, String],
-    default: void 0,
-    validator: (val) => ["anonymous", "use-credentials", "", true, false].includes(val)
-  },
-  decoding: {
-    type: String,
-    default: void 0,
-    validator: (val) => ["async", "auto", "sync"].includes(val)
-  }
-};
-const useBaseImage = (props) => {
-  const options = computed(() => {
-    return {
-      provider: props.provider,
-      preset: props.preset
-    };
-  });
-  const attrs = computed(() => {
-    return {
-      width: parseSize(props.width),
-      height: parseSize(props.height),
-      alt: props.alt,
-      referrerpolicy: props.referrerpolicy,
-      usemap: props.usemap,
-      longdesc: props.longdesc,
-      ismap: props.ismap,
-      crossorigin: props.crossorigin === true ? "anonymous" : props.crossorigin || void 0,
-      loading: props.loading,
-      decoding: props.decoding
-    };
-  });
-  const $img = useImage();
-  const modifiers = computed(() => {
-    return {
-      ...props.modifiers,
-      width: parseSize(props.width),
-      height: parseSize(props.height),
-      format: props.format,
-      quality: props.quality || $img.options.quality,
-      background: props.background,
-      fit: props.fit
-    };
-  });
-  return {
-    options,
-    attrs,
-    modifiers
-  };
-};
-const imgProps = {
-  ...baseImageProps,
-  placeholder: { type: [Boolean, String, Number, Array], default: void 0 }
-};
-const __nuxt_component_1$1 = /* @__PURE__ */ defineComponent({
-  name: "NuxtImg",
-  props: imgProps,
-  emits: ["load", "error"],
-  setup: (props, ctx) => {
-    const $img = useImage();
-    const _base = useBaseImage(props);
-    const placeholderLoaded = ref(false);
-    const sizes = computed(() => $img.getSizes(props.src, {
-      ..._base.options.value,
-      sizes: props.sizes,
-      densities: props.densities,
-      modifiers: {
-        ..._base.modifiers.value,
-        width: parseSize(props.width),
-        height: parseSize(props.height)
-      }
-    }));
-    const attrs = computed(() => {
-      const attrs2 = { ..._base.attrs.value, "data-nuxt-img": "" };
-      if (!props.placeholder || placeholderLoaded.value) {
-        attrs2.sizes = sizes.value.sizes;
-        attrs2.srcset = sizes.value.srcset;
-      }
-      return attrs2;
-    });
-    const placeholder = computed(() => {
-      let placeholder2 = props.placeholder;
-      if (placeholder2 === "") {
-        placeholder2 = true;
-      }
-      if (!placeholder2 || placeholderLoaded.value) {
-        return false;
-      }
-      if (typeof placeholder2 === "string") {
-        return placeholder2;
-      }
-      const size = Array.isArray(placeholder2) ? placeholder2 : typeof placeholder2 === "number" ? [placeholder2, placeholder2] : [10, 10];
-      return $img(props.src, {
-        ..._base.modifiers.value,
-        width: size[0],
-        height: size[1],
-        quality: size[2] || 50
-      }, _base.options.value);
-    });
-    const mainSrc = computed(
-      () => props.sizes ? sizes.value.src : $img(props.src, _base.modifiers.value, _base.options.value)
-    );
-    const src = computed(() => placeholder.value ? placeholder.value : mainSrc.value);
-    if (props.preload) {
-      const isResponsive = Object.values(sizes.value).every((v) => v);
-      useHead({
-        link: [{
-          rel: "preload",
-          as: "image",
-          ...!isResponsive ? { href: src.value } : {
-            href: sizes.value.src,
-            imagesizes: sizes.value.sizes,
-            imagesrcset: sizes.value.srcset
-          }
-        }]
-      });
-    }
-    const imgEl = ref();
-    const nuxtApp = useNuxtApp();
-    nuxtApp.isHydrating;
-    return () => h("img", {
-      ref: imgEl,
-      src: src.value,
-      ...{ onerror: "this.setAttribute('data-error', 1)" },
-      ...attrs.value,
-      ...ctx.attrs
-    });
-  }
-});
+const _imports_0 = "" + __publicAssetsURL("header/logo.svg");
+const _imports_1 = "" + __publicAssetsURL("header/instaLogo.svg");
 const _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props) {
@@ -1515,36 +995,46 @@ const _export_sfc = (sfc, props) => {
 const _sfc_main$4 = {};
 function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs) {
   const _component_nuxt_link = __nuxt_component_0$1;
-  const _component_nuxt_img = __nuxt_component_1$1;
-  const _component_NuxtImg = __nuxt_component_1$1;
-  _push(`<header${ssrRenderAttrs(mergeProps({ class: "bg-[#2D2D2D] px-[50px] py-4" }, _attrs))}><div class="flex justify-between">`);
-  _push(ssrRenderComponent(_component_nuxt_link, { to: "/" }, {
+  _push(`<header${ssrRenderAttrs(mergeProps({ class: "bg-[#2D2D2D] pl-[63px] pr-[86px] pt-[45px] h-[100px] flex justify-between" }, _attrs))}><div>`);
+  _push(ssrRenderComponent(_component_nuxt_link, {
+    class: "logo",
+    to: "/",
+    alt: "homepage"
+  }, {
     default: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(ssrRenderComponent(_component_nuxt_img, { src: "/header/logo.svg" }, null, _parent2, _scopeId));
+        _push2(`<img${ssrRenderAttr("src", _imports_0)}${_scopeId}> &gt;`);
       } else {
         return [
-          createVNode(_component_nuxt_img, { src: "/header/logo.svg" })
+          createVNode("img", { src: _imports_0 }),
+          createTextVNode(" >")
         ];
       }
     }),
     _: 1
   }, _parent));
-  _push(`<ul class="text-[#E9E3DE] flex justify-between items-center w-[25%]"><li>`);
-  _push(ssrRenderComponent(_component_nuxt_link, { to: "/" }, {
+  _push(`</div><nav class="min-w-[400px]"><ul class="text-[#E9E3DE] flex justify-between items-center w-full">`);
+  _push(ssrRenderComponent(_component_nuxt_link, {
+    class: "py-[6px]",
+    to: "/"
+  }, {
     default: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(`Accueil`);
+        _push2(`<li${_scopeId}>Accueil</li>`);
       } else {
         return [
-          createTextVNode("Accueil")
+          createVNode("li", null, "Accueil")
         ];
       }
     }),
     _: 1
   }, _parent));
-  _push(`</li><li>`);
-  _push(ssrRenderComponent(_component_nuxt_link, { to: "/ProductsAndServices" }, {
+  _push(`<li>`);
+  _push(ssrRenderComponent(_component_nuxt_link, {
+    class: "py-[6px]",
+    to: "/ProductsAndServices",
+    alt: "products page"
+  }, {
     default: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
         _push2(`Produits and Services`);
@@ -1557,7 +1047,11 @@ function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs) {
     _: 1
   }, _parent));
   _push(`</li><li>`);
-  _push(ssrRenderComponent(_component_nuxt_link, { to: "/Contact" }, {
+  _push(ssrRenderComponent(_component_nuxt_link, {
+    class: "py-[6px]",
+    to: "/Contact",
+    alt: "contact page"
+  }, {
     default: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
         _push2(`Contact`);
@@ -1570,8 +1064,26 @@ function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs) {
     _: 1
   }, _parent));
   _push(`</li><li>`);
-  _push(ssrRenderComponent(_component_NuxtImg, { src: "/header/instaLogo.svg" }, null, _parent));
-  _push(`</li></ul></div></header>`);
+  _push(ssrRenderComponent(_component_nuxt_link, {
+    to: "https://www.instagram.com/deco_comptoirnature",
+    target: "_blank",
+    alt: "instagram link"
+  }, {
+    default: withCtx((_, _push2, _parent2, _scopeId) => {
+      if (_push2) {
+        _push2(`<img${ssrRenderAttr("src", _imports_1)} alt="instagram icon"${_scopeId}>`);
+      } else {
+        return [
+          createVNode("img", {
+            src: _imports_1,
+            alt: "instagram icon"
+          })
+        ];
+      }
+    }),
+    _: 1
+  }, _parent));
+  _push(`</li></ul></nav></header>`);
 }
 const _sfc_setup$4 = _sfc_main$4.setup;
 _sfc_main$4.setup = (props, ctx) => {
@@ -1708,7 +1220,25 @@ const RouteProvider = /* @__PURE__ */ defineComponent({
 });
 const _sfc_main$3 = {};
 function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs) {
-  _push(`<footer${ssrRenderAttrs(_attrs)}></footer>`);
+  const _component_NuxtLink = __nuxt_component_0$1;
+  _push(`<footer${ssrRenderAttrs(mergeProps({ class: "min-h-[62px] bg-[#9A6F50] pl-[63px] pr-[86px]" }, _attrs))}><div class="flex justify-between items-center h-[62px]"><p class="text-[12px] leading-[28px] tracking-[1.2px] font-bold text-[#2D2D2D]"><span class="text-[#364444]">ComptoirNature.net</span> - Tous droits réservés. Site internet réalisé par `);
+  _push(ssrRenderComponent(_component_NuxtLink, {
+    to: "https://www.vancleem.com",
+    target: "_blank",
+    class: "text-[#364444]"
+  }, {
+    default: withCtx((_, _push2, _parent2, _scopeId) => {
+      if (_push2) {
+        _push2(` vanCleem.com`);
+      } else {
+        return [
+          createTextVNode(" vanCleem.com")
+        ];
+      }
+    }),
+    _: 1
+  }, _parent));
+  _push(`</p><p class="text-[12px] leading-[28px] tracking-[1.2px] font-bold text-[#364444] cursor-pointer"> Condition Générales et Confidentialité </p></div></footer>`);
 }
 const _sfc_setup$3 = _sfc_main$3.setup;
 _sfc_main$3.setup = (props, ctx) => {
@@ -1728,7 +1258,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
   const _component_TheFooter = __nuxt_component_2;
   _push(`<div${ssrRenderAttrs(_attrs)}>`);
   _push(ssrRenderComponent(_component_TheHeader, null, null, _parent));
-  _push(ssrRenderComponent(_component_NuxtPage, null, null, _parent));
+  _push(ssrRenderComponent(_component_NuxtPage, { class: "bg-[#2D2D2D]" }, null, _parent));
   _push(ssrRenderComponent(_component_TheFooter, null, null, _parent));
   _push(`</div>`);
 }
@@ -1760,8 +1290,8 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/error-404-290e5a38.mjs').then((r) => r.default || r));
-    const _Error = /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/error-500-ce8e3274.mjs').then((r) => r.default || r));
+    const _Error404 = /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/error-404-1561d23c.mjs').then((r) => r.default || r));
+    const _Error = /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/error-500-d0588304.mjs').then((r) => r.default || r));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ statusCode: unref(statusCode), statusMessage: unref(statusMessage), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
@@ -1779,7 +1309,7 @@ const _sfc_main = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const IslandRenderer = /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/island-renderer-f4d56669.mjs').then((r) => r.default || r));
+    const IslandRenderer = /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/island-renderer-c9d18c13.mjs').then((r) => r.default || r));
     const nuxtApp = useNuxtApp();
     nuxtApp.deferHydration();
     nuxtApp.ssrContext.url;
@@ -1846,5 +1376,5 @@ let entry;
 }
 const entry$1 = (ctx) => entry(ctx);
 
-export { _export_sfc as _, __nuxt_component_0$1 as a, createError as c, entry$1 as default, useHead as u };
+export { _export_sfc as _, __nuxt_component_0$1 as a, useNuxtApp as b, createError as c, useRuntimeConfig as d, entry$1 as default, useHead as u };
 //# sourceMappingURL=server.mjs.map

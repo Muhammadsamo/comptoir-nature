@@ -1,7 +1,7 @@
 <template>
   <main class="min-h-[calc(100vh-160px)]">
     <div
-      class="hidden lg:grid grid-cols-3 items-center gap-[70px] justify-between h-[100%] px-[50px]"
+      class="hidden lg:grid grid-cols-3 items-center gap-[70px] justify-between h-[100%] px-[50px] mx-auto max-w-[1440px]"
     >
       >
       <div class="col-start-1 col-end-2 justify-self-end w-[300px]">
@@ -23,7 +23,7 @@
       <div
         class="col-start-2 col-end-3 text-[#E9E3DE] border-[#B2896B] border-[2px] max-w-[340px] justify-self-center"
       >
-        <p class="py-8 px-7">
+        <p class="py-8 px-7 text-[12px] leading-[20px]">
           Chez Comptoir Nature, nous estimons que chaque client est unique, et
           par conséquent, votre espace devrait l'être aussi. Nous travaillons en
           étroite collaboration avec vous pour comprendre vos personnalités et
@@ -50,35 +50,35 @@
             class="border-b border-[#B2896B] flex items-center justify-between"
           >
             Listes de Mariages<span class="inline-block">
-              <NuxtImg src="/productsAndServices/servicesicon.svg"></NuxtImg>
+              <img src="/productsAndServices/servicesicon.svg" />
             </span>
           </li>
           <li
             class="border-b border-[#B2896B] flex items-center justify-between"
           >
             Conseil en Décoration<span class="inline-block">
-              <NuxtImg src="/productsAndServices/servicesicon.svg"></NuxtImg>
+              <img src="/productsAndServices/servicesicon.svg" />
             </span>
           </li>
           <li
             class="border-b border-[#B2896B] flex items-center justify-between"
           >
             Livraisons<span class="inline-block">
-              <NuxtImg src="/productsAndServices/servicesicon.svg"></NuxtImg>
+              <img src="/productsAndServices/servicesicon.svg" />
             </span>
           </li>
           <li
             class="border-b border-[#B2896B] flex items-center justify-between"
           >
             Parking<span class="inline-block">
-              <NuxtImg src="/productsAndServices/servicesicon.svg"></NuxtImg>
+              <img src="/productsAndServices/servicesicon.svg" />
             </span>
           </li>
           <li
             class="border-b border-[#B2896B] flex items-center justify-between"
           >
             Paiement en 4 Fois<span class="inline-block">
-              <NuxtImg src="/productsAndServices/servicesicon.svg"></NuxtImg>
+              <img src="/productsAndServices/servicesicon.svg" />
             </span>
           </li>
         </ul>

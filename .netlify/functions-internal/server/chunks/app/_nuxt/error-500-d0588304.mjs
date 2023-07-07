@@ -1,6 +1,6 @@
-import { _ as _export_sfc, u as useHead } from '../server.mjs';
 import { mergeProps, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate } from 'vue/server-renderer';
+import { _ as _export_sfc, u as useHead } from '../server.mjs';
 import 'ofetch';
 import 'hookable';
 import 'unctx';
@@ -73,4 +73,4 @@ _sfc_main.setup = (props, ctx) => {
 const error500 = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-92365d16"]]);
 
 export { error500 as default };
-//# sourceMappingURL=error-500-ce8e3274.mjs.map
+//# sourceMappingURL=error-500-d0588304.mjs.map
