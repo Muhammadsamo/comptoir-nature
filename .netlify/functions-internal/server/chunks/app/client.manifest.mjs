@@ -2,17 +2,37 @@ const client_manifest = {
   "components/PrimaryButton.vue": {
     "resourceType": "script",
     "module": true,
-    "file": "PrimaryButton.476e55a3.js",
+    "file": "PrimaryButton.f4fba12e.js",
     "imports": [
       "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
     ],
     "isDynamicEntry": true,
     "src": "components/PrimaryButton.vue"
   },
+  "components/Slider.css": {
+    "resourceType": "style",
+    "file": "Slider.c22b92bd.css",
+    "src": "components/Slider.css"
+  },
+  "components/Slider.vue": {
+    "resourceType": "script",
+    "module": true,
+    "css": [],
+    "file": "Slider.314fb201.js",
+    "imports": [
+      "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "components/Slider.vue"
+  },
+  "Slider.c22b92bd.css": {
+    "file": "Slider.c22b92bd.css",
+    "resourceType": "style"
+  },
   "components/TermsOfUse.vue": {
     "resourceType": "script",
     "module": true,
-    "file": "TermsOfUse.c58e7828.js",
+    "file": "TermsOfUse.c9517f24.js",
     "imports": [
       "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
     ],
@@ -28,7 +48,7 @@ const client_manifest = {
     "resourceType": "script",
     "module": true,
     "css": [],
-    "file": "error-404.a8cc7030.js",
+    "file": "error-404.be8cdb31.js",
     "imports": [
       "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
     ],
@@ -48,7 +68,7 @@ const client_manifest = {
     "resourceType": "script",
     "module": true,
     "css": [],
-    "file": "error-500.41700f83.js",
+    "file": "error-500.d5451543.js",
     "imports": [
       "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
     ],
@@ -74,7 +94,7 @@ const client_manifest = {
       "node_modules/.pnpm/@nuxt+ui-templates@1.2.0/node_modules/@nuxt/ui-templates/dist/templates/error-404.vue",
       "node_modules/.pnpm/@nuxt+ui-templates@1.2.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.vue"
     ],
-    "file": "entry.b1234c75.js",
+    "file": "entry.6345306b.js",
     "isEntry": true,
     "src": "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
   },
@@ -85,7 +105,7 @@ const client_manifest = {
   "pages/Contact.vue": {
     "resourceType": "script",
     "module": true,
-    "file": "Contact.e271e660.js",
+    "file": "Contact.1a68f21f.js",
     "imports": [
       "components/PrimaryButton.vue",
       "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
@@ -96,7 +116,7 @@ const client_manifest = {
   "pages/ProductsAndServices.vue": {
     "resourceType": "script",
     "module": true,
-    "file": "ProductsAndServices.04090b68.js",
+    "file": "ProductsAndServices.0e63fedf.js",
     "imports": [
       "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
     ],
@@ -106,10 +126,11 @@ const client_manifest = {
   "pages/index.vue": {
     "resourceType": "script",
     "module": true,
-    "file": "index.96caaf02.js",
+    "file": "index.79ac1ed8.js",
     "imports": [
-      "components/PrimaryButton.vue",
-      "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js"
+      "components/Slider.vue",
+      "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js",
+      "components/PrimaryButton.vue"
     ],
     "isDynamicEntry": true,
     "src": "pages/index.vue"

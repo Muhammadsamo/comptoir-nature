@@ -20,8 +20,6 @@ import 'klona';
 import 'unenv/runtime/fetch/index';
 import 'ohash';
 import 'unstorage';
-import 'node:url';
-import 'ipx';
 
 const components_islands = {};
 const islandComponents = /* @__PURE__ */ Object.freeze({

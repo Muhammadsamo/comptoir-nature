@@ -20,8 +20,6 @@ import 'klona';
 import 'unenv/runtime/fetch/index';
 import 'ohash';
 import 'unstorage';
-import 'node:url';
-import 'ipx';
 
 const _sfc_main = {
   __name: "error-404",

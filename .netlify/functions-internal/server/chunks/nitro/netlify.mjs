@@ -1,6 +1,6 @@
-globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import 'node-fetch-native/polyfill';
-import { withoutBase, joinURL, getQuery, withQuery, parseURL, withLeadingSlash } from 'ufo';
-import { eventHandler, setHeaders, sendRedirect, proxyRequest, defineEventHandler, handleCacheHeaders, createEvent, getRequestHeader, setResponseStatus, setResponseHeader, getRequestHeaders, lazyEventHandler, createApp, createRouter as createRouter$1, toNodeListener, fetchWithEvent } from 'h3';
+import 'node-fetch-native/polyfill';
+import { withoutBase, joinURL, getQuery, withQuery, parseURL } from 'ufo';
+import { eventHandler, setHeaders, sendRedirect, proxyRequest, defineEventHandler, handleCacheHeaders, createEvent, getRequestHeader, setResponseStatus, setResponseHeader, getRequestHeaders, createApp, createRouter as createRouter$1, toNodeListener, fetchWithEvent, lazyEventHandler } from 'h3';
 import defu, { defuFn } from 'defu';
 import { toRouteMatcher, createRouter } from 'radix3';
 import destr from 'destr';
@@ -11,8 +11,6 @@ import { createCall, createFetch } from 'unenv/runtime/fetch/index';
 import { createHooks } from 'hookable';
 import { hash } from 'ohash';
 import { createStorage, prefixStorage } from 'unstorage';
-import { fileURLToPath } from 'node:url';
-import { createIPX, createIPXMiddleware } from 'ipx';
 
 const inlineAppConfig = {};
 
@@ -40,13 +38,7 @@ const _inlineRuntimeConfig = {
       }
     }
   },
-  "public": {},
-  "ipx": {
-    "dir": "../../../dist",
-    "domains": [],
-    "sharp": {},
-    "alias": {}
-  }
+  "public": {}
 };
 const ENV_PREFIX = "NITRO_";
 const ENV_PREFIX_ALT = _inlineRuntimeConfig.nitro.envPrefix ?? process.env.NITRO_ENV_PREFIX ?? "_";
@@ -531,26 +523,10 @@ const errorHandler = (async function errorhandler(error, event) {
   event.node.res.end(html);
 });
 
-const _tz1jKG = lazyEventHandler(() => {
-  const opts = useRuntimeConfig().ipx;
-  const ipxOptions = {
-    ...opts || {},
-    // TODO: Switch to storage API when ipx supports it
-    dir: fileURLToPath(new URL(opts.dir, globalThis._importMeta_.url))
-  };
-  const ipx = createIPX(ipxOptions);
-  const middleware = createIPXMiddleware(ipx);
-  return eventHandler(async (event) => {
-    event.node.req.url = withLeadingSlash(event.context.params._);
-    await middleware(event.node.req, event.node.res);
-  });
-});
-
 const _lazy_mzWxck = () => import('../handlers/renderer.mjs').then(function (n) { return n.r; });
 
 const handlers = [
   { route: '/__nuxt_error', handler: _lazy_mzWxck, lazy: true, middleware: false, method: undefined },
-  { route: '/_ipx/**', handler: _tz1jKG, lazy: false, middleware: false, method: undefined },
   { route: '/**', handler: _lazy_mzWxck, lazy: true, middleware: false, method: undefined }
 ];
 

@@ -4,9 +4,9 @@
       class="grid lg:grid-cols-2 min-h-[calc(100vh-160px)] items-center gap-[100px] max-w-[1440px] mx-auto"
     >
       <div
-        class="col-start-1 border border-[#B2896B] px-[3px] pt-[5px] pb-[0] justify-self-end"
+        class="col-start-1 border border-[#B2896B] px-[3px] pt-[5px] pb-[0] justify-self-end lg:max-h-[367px] lg:max-w-[510px]"
       >
-        <img src="/home/hero-img.png" width="510" height="367" alt="hero img" />
+        <ClientOnly><Slider /></ClientOnly>
       </div>
       <div class="col-start-2 font-Montserrat text-[#E9E3DE] max-w-[414px]">
         <h1

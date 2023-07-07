@@ -12,6 +12,4 @@ import 'unenv/runtime/fetch/index';
 import 'hookable';
 import 'ohash';
 import 'unstorage';
-import 'node:url';
-import 'ipx';
 //# sourceMappingURL=server.mjs.map
