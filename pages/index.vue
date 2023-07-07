@@ -6,12 +6,7 @@
       <div
         class="col-start-1 border border-[#B2896B] px-[3px] pt-[5px] pb-[0] justify-self-end"
       >
-        <img
-          src="/home/hero-img.png"
-          width="510px"
-          height="367px"
-          alt="hero img"
-        />
+        <img src="/home/hero-img.png" width="510" height="367" alt="hero img" />
       </div>
       <div class="col-start-2 font-Montserrat text-[#E9E3DE] max-w-[414px]">
         <h1

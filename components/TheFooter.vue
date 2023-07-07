@@ -1,5 +1,7 @@
 <template>
-  <footer class="min-h-[62px] bg-[#9A6F50] pl-[63px] pr-[86px]">
+  <footer
+    class="min-h-[62px] bg-[#9A6F50] pl-[63px] pr-[86px] fixed bottom-0 w-screen"
+  >
     <div class="flex justify-between items-center h-[62px]">
       <p
         class="text-[12px] leading-[28px] tracking-[1.2px] font-bold text-[#2D2D2D]"

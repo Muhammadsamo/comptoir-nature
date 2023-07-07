@@ -1,11 +1,11 @@
 <template>
   <header
-    class="bg-[#2D2D2D] pl-[63px] pr-[86px] pt-[45px] h-[100px] flex justify-between"
+    class="bg-[#2D2D2D] pl-[63px] pr-[86px] pt-[45px] h-[100px] flex justify-between w-screen fixed"
   >
     <div>
       <nuxt-link class="logo" to="/" alt="homepage"
-        ><img src="/header/logo.svg" /> ></nuxt-link
-      >
+        ><img src="/header/logo.svg"
+      /></nuxt-link>
     </div>
     <nav class="min-w-[400px]">
       <ul class="text-[#E9E3DE] flex justify-between items-center w-full">

@@ -8,8 +8,8 @@
       >
         <img
           src="/contact/map-placeholder-image.png"
-          width="690px"
-          height="380px"
+          width="690"
+          height="380"
           alt="Googale Map"
         />
       </div>
