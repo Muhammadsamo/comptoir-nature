@@ -9,11 +9,12 @@ module.exports = {
     "./app.vue",
   ],
   theme: {
-    fontFamily: {
-      Merriweather: ["Merriweather", "sans"],
-      Montserrat: ["Montserrat", "sans"],
+    extend: {
+      fontFamily: {
+        Montserrat: ["Montserrat", "sans"],
+        Merriweather: ["Merriweather", "sans"],
+      },
     },
-    extend: {},
   },
   plugins: [],
 };
