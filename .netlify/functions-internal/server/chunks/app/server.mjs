@@ -1,4 +1,4 @@
-import { hasInjectionContext, getCurrentInstance, version, defineAsyncComponent, inject, ref, watchEffect, watch, defineComponent, computed, h, resolveComponent, useSSRContext, createApp, reactive, unref, mergeProps, withCtx, createVNode, createTextVNode, provide, onErrorCaptured, onServerPrefetch, resolveDynamicComponent, toRef, shallowRef, isReadonly, isRef, effectScope, markRaw, isShallow, isReactive, toRaw, nextTick, Suspense, Transition } from 'vue';
+import { version, defineAsyncComponent, getCurrentInstance, inject, ref, watchEffect, watch, defineComponent, computed, h, resolveComponent, useSSRContext, createApp, reactive, unref, mergeProps, withCtx, createVNode, createTextVNode, hasInjectionContext, provide, onErrorCaptured, onServerPrefetch, resolveDynamicComponent, toRef, shallowRef, isReadonly, isRef, effectScope, markRaw, isShallow, isReactive, toRaw, nextTick, Suspense, Transition } from 'vue';
 import { $fetch } from 'ofetch';
 import { createHooks } from 'hookable';
 import { getContext, executeAsync } from 'unctx';
@@ -19,8 +19,6 @@ import 'klona';
 import 'unenv/runtime/fetch/index';
 import 'ohash';
 import 'unstorage';
-import 'node:url';
-import 'ipx';
 
 const appConfig = useRuntimeConfig$1().app;
 const baseURL = () => appConfig.baseURL;
@@ -314,7 +312,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/Contact-14e9b034.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/Contact-5d31447c.mjs').then((m) => m.default || m)
   },
   {
     name: "ProductsAndServices",
@@ -330,7 +328,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/index-86fc96e1.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/index-a21a64bb.mjs').then((m) => m.default || m)
   }
 ];
 const appHead = { "meta": [{ "name": "viewport", "content": "width=device-width, initial-scale=1" }, { "charset": "utf-8" }], "link": [], "style": [], "script": [], "noscript": [] };
@@ -934,7 +932,8 @@ const revive_payload_server_699ZCUunvA = /* @__PURE__ */ defineNuxtPlugin({
   }
 });
 const LazyPrimaryButton = defineAsyncComponent(() => import('./_nuxt/PrimaryButton-6d63f26b.mjs').then((r) => r.default));
-const LazyTermsOfUse = defineAsyncComponent(() => import('./_nuxt/TermsOfUse-9c760aad.mjs').then((r) => r.default));
+const LazySlider = defineAsyncComponent(() => import('./_nuxt/Slider-6b4568e6.mjs').then((r) => r.default));
+const LazyTermsOfUse = defineAsyncComponent(() => import('./_nuxt/TermsOfUse-c7c11e82.mjs').then((r) => r.default));
 const LazyTheFooter = defineAsyncComponent(() => Promise.resolve().then(function() {
   return TheFooter;
 }).then((r) => r.default));
@@ -943,6 +942,7 @@ const LazyTheHeader = defineAsyncComponent(() => Promise.resolve().then(function
 }).then((r) => r.default));
 const lazyGlobalComponents = [
   ["PrimaryButton", LazyPrimaryButton],
+  ["Slider", LazySlider],
   ["TermsOfUse", LazyTermsOfUse],
   ["TheFooter", LazyTheFooter],
   ["TheHeader", LazyTheHeader]
@@ -995,7 +995,7 @@ const _export_sfc = (sfc, props) => {
 const _sfc_main$4 = {};
 function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs) {
   const _component_nuxt_link = __nuxt_component_0$1;
-  _push(`<header${ssrRenderAttrs(mergeProps({ class: "bg-[#2D2D2D] pl-[63px] pr-[86px] pt-[45px] h-[100px] flex justify-between" }, _attrs))}><div>`);
+  _push(`<header${ssrRenderAttrs(mergeProps({ class: "bg-[#2D2D2D] pl-[63px] pr-[86px] pt-[45px] h-[100px] flex justify-between w-screen fixed" }, _attrs))}><div>`);
   _push(ssrRenderComponent(_component_nuxt_link, {
     class: "logo",
     to: "/",
@@ -1003,11 +1003,10 @@ function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs) {
   }, {
     default: withCtx((_, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(`<img${ssrRenderAttr("src", _imports_0)}${_scopeId}> &gt;`);
+        _push2(`<img${ssrRenderAttr("src", _imports_0)}${_scopeId}>`);
       } else {
         return [
-          createVNode("img", { src: _imports_0 }),
-          createTextVNode(" >")
+          createVNode("img", { src: _imports_0 })
         ];
       }
     }),
@@ -1221,7 +1220,7 @@ const RouteProvider = /* @__PURE__ */ defineComponent({
 const _sfc_main$3 = {};
 function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs) {
   const _component_NuxtLink = __nuxt_component_0$1;
-  _push(`<footer${ssrRenderAttrs(mergeProps({ class: "min-h-[62px] bg-[#9A6F50] pl-[63px] pr-[86px]" }, _attrs))}><div class="flex justify-between items-center h-[62px]"><p class="text-[12px] leading-[28px] tracking-[1.2px] font-bold text-[#2D2D2D]"><span class="text-[#364444]">ComptoirNature.net</span> - Tous droits réservés. Site internet réalisé par `);
+  _push(`<footer${ssrRenderAttrs(mergeProps({ class: "min-h-[62px] bg-[#9A6F50] pl-[63px] pr-[86px] fixed bottom-0 w-screen" }, _attrs))}><div class="flex justify-between items-center h-[62px]"><p class="text-[12px] leading-[28px] tracking-[1.2px] font-bold text-[#2D2D2D]"><span class="text-[#364444]">ComptoirNature.net</span> - Tous droits réservés. Site internet réalisé par `);
   _push(ssrRenderComponent(_component_NuxtLink, {
     to: "https://www.vancleem.com",
     target: "_blank",
@@ -1258,7 +1257,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
   const _component_TheFooter = __nuxt_component_2;
   _push(`<div${ssrRenderAttrs(_attrs)}>`);
   _push(ssrRenderComponent(_component_TheHeader, null, null, _parent));
-  _push(ssrRenderComponent(_component_NuxtPage, { class: "bg-[#2D2D2D]" }, null, _parent));
+  _push(ssrRenderComponent(_component_NuxtPage, { class: "pt-[100px]" }, null, _parent));
   _push(ssrRenderComponent(_component_TheFooter, null, null, _parent));
   _push(`</div>`);
 }
@@ -1376,5 +1375,5 @@ let entry;
 }
 const entry$1 = (ctx) => entry(ctx);
 
-export { _export_sfc as _, __nuxt_component_0$1 as a, useNuxtApp as b, createError as c, useRuntimeConfig as d, entry$1 as default, useHead as u };
+export { _export_sfc as _, __nuxt_component_0$1 as a, createError as c, entry$1 as default, useHead as u };
 //# sourceMappingURL=server.mjs.map

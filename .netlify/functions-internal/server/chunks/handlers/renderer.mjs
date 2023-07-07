@@ -38,6 +38,10 @@ function defineRenderHandler(handler) {
   });
 }
 
+const appRootId = "__nuxt";
+
+const appRootTag = "div";
+
 function buildAssetsDir() {
   return useRuntimeConfig().app.buildAssetsDir;
 }
@@ -48,10 +52,6 @@ function publicAssetsURL(...path) {
   const publicBase = useRuntimeConfig().app.cdnURL || useRuntimeConfig().app.baseURL;
   return path.length ? joinURL(publicBase, ...path) : publicBase;
 }
-
-const appRootId = "__nuxt";
-
-const appRootTag = "div";
 
 globalThis.__buildAssetsURL = buildAssetsURL;
 globalThis.__publicAssetsURL = publicAssetsURL;
