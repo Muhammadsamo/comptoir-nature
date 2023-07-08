@@ -23,19 +23,20 @@
         <h1
           class="text-[#59493C] font-Merriweather font-bold text-[20px] md:text-[24px] leading-5 my-7"
         >
-          Website Terms of Use and Privacy Policy
+          Condition Générales et Confidentialité
         </h1>
         <div class="overflow-y-scroll max-h-[260px] pr-[42px]">
           <p class="text-[#2C2E2F] text-[12px] md:text-[16px] leading-5">
-            This website (the "Website") is owned and operated by [Canadian
-            Consultant's Name or Company Name] ("we", "us", or "our"). Please
-            read these terms of use and privacy policy carefully before using
-            our Website.
+            Nous proposons un service d'entretien de piscines irréprochable et
+            adapté à vos besoins. Que vous ayez besoin d'un nettoyage régulier
+            ou d'une maintenance saisonnière, notre équipe d'experts utilise les
+            dernières technologies et les meilleures pratiques pour garantir que
+            votre piscine reste propre, sûre et prête à l'usage.
           </p>
           <h2
             class="text-[#59493C] font-Merriweather font-bold text-[18px] md:text-[20px] tracking-widest my-6"
           >
-            1. Consent
+            Heading 1
           </h2>
           <p class="text-[#2C2E2F] text-[14px] md:text-[16px] leading-5">
             By accessing and using our Website, you accept and agree to be bound
@@ -45,21 +46,19 @@
             will constitute acceptance of this agreement. If you do not agree to
             abide by the above, please do not use this service.
           </p>
-          <h2
-            class="text-[#59493C] font-Merriweather font-bold text-[18px] md:text-[20px] tracking-widest my-6"
+          <h3
+            class="text-[#59493C] font-Merriweather font-bold text-[16px] md:text-[20px] tracking-widest my-6"
           >
-            2. Data Collection and Usage
-          </h2>
+            Heading 2
+          </h3>
           <p class="text-[#2C2E2F] text-[14px] md:text-[16px] leading-5">
-            We collect information from you when you visit our website,
-            register, fill out a form, or use other site features. The
-            information collected may include your name, email address, phone
-            number, or other details you provide in the contact form. This data
-            will be used to provide you with information and services you
-            request, respond to inquiries, and for other customer service
-            purposes.
+            Nous sommes dédiés à préserver la beauté et la fonctionnalité de
+            votre piscine, pour que vous puissiez toujours profiter d'une eau
+            cristalline et d'un environnement de baignade sans soucis. Optez
+            pour la tranquillité d'esprit avec notre service d'entretien de
+            piscines chez Net Pool.
           </p>
-          <h2
+          <!-- <h2
             class="text-[#59493C] font-Merriweather font-bold text-[18px] md:text-[20px] tracking-widest my-6"
           >
             3. Use of Google Analytics
@@ -130,7 +129,7 @@
               alt="www.vecteezy.com/members/hasan7"
               >hasan7@vecteezy</nuxt-link
             >
-          </p>
+          </p> -->
         </div>
       </div>
     </div>
