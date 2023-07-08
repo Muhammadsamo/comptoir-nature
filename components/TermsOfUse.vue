@@ -5,17 +5,21 @@
     <div
       class="md:flex justify-between z-[10001] w-[90%] md:w-[767px] md:h-[400px] bg-[#E9E3DE] border-[2px] border-[#CDC0B6] pl-[40px] pr-[20px] pb-[50px]"
     >
-      <nuxt-img
+      <img
         class="h-[110%] -translate-x-[34px] translate-y-[7px]"
         src="/termsOfUse/termsofuse.png"
-      ></nuxt-img>
+      />
       <div>
-        <img
-          class="absolute top-[5px] md:top-[-30px] right-[5px] md:right-[-3px] cursor-pointer"
-          @click="$emit('closeModal')"
-          src="/termsOfUse/close.svg"
-          alt="close btn"
-        />
+        <div
+          class="flex gap-[6px] text-[#8EA6A7] text-[12px] leading-5 font-Montserrat font-semibold absolute top-[5px] md:top-[-30px] right-[5px] md:right-[-3px] cursor-pointer"
+        >
+          Fermer
+          <img
+            @click="$emit('closeModal')"
+            src="/termsOfUse/close.svg"
+            alt="close btn"
+          />
+        </div>
         <h1
           class="text-[#59493C] font-Merriweather font-bold text-[20px] md:text-[24px] leading-5 my-7"
         >
