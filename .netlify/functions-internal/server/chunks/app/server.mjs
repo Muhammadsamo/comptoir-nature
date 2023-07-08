@@ -312,7 +312,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/Contact-5d31447c.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/Contact-8bbd92a8.mjs').then((m) => m.default || m)
   },
   {
     name: "ProductsAndServices",
@@ -931,9 +931,11 @@ const revive_payload_server_699ZCUunvA = /* @__PURE__ */ defineNuxtPlugin({
     }
   }
 });
+const LazyGoogleMap = defineAsyncComponent(() => import('./_nuxt/GoogleMap-1e54c878.mjs').then((r) => r.default));
 const LazyPrimaryButton = defineAsyncComponent(() => import('./_nuxt/PrimaryButton-6d63f26b.mjs').then((r) => r.default));
+const LazyServiceDetailsModal = defineAsyncComponent(() => import('./_nuxt/ServiceDetailsModal-5496ed91.mjs').then((r) => r.default));
 const LazySlider = defineAsyncComponent(() => import('./_nuxt/Slider-6b4568e6.mjs').then((r) => r.default));
-const LazyTermsOfUse = defineAsyncComponent(() => import('./_nuxt/TermsOfUse-c7c11e82.mjs').then((r) => r.default));
+const LazyTermsOfUse = defineAsyncComponent(() => import('./_nuxt/TermsOfUse-5897359e.mjs').then((r) => r.default));
 const LazyTheFooter = defineAsyncComponent(() => Promise.resolve().then(function() {
   return TheFooter;
 }).then((r) => r.default));
@@ -941,7 +943,9 @@ const LazyTheHeader = defineAsyncComponent(() => Promise.resolve().then(function
   return TheHeader;
 }).then((r) => r.default));
 const lazyGlobalComponents = [
+  ["GoogleMap", LazyGoogleMap],
   ["PrimaryButton", LazyPrimaryButton],
+  ["ServiceDetailsModal", LazyServiceDetailsModal],
   ["Slider", LazySlider],
   ["TermsOfUse", LazyTermsOfUse],
   ["TheFooter", LazyTheFooter],

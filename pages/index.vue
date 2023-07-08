@@ -1,5 +1,5 @@
 <template>
-  <main class="min-h-[calc(100vh-160px)]">
+  <main class="min-h-[calc(100vh-160px)] pt-[100px]">
     <div
       class="grid lg:grid-cols-2 min-h-[calc(100vh-160px)] items-center gap-[100px] max-w-[1440px] mx-auto"
     >

@@ -22,9 +22,7 @@
           Website Terms of Use and Privacy Policy
         </h1>
         <div class="overflow-y-scroll max-h-[260px] pr-[42px]">
-          <p
-            class="text-[#2C2E2F] text-[12px] md:text-[16px] font-Montserrat leading-5"
-          >
+          <p class="text-[#2C2E2F] text-[12px] md:text-[16px] leading-5">
             This website (the "Website") is owned and operated by [Canadian
             Consultant's Name or Company Name] ("we", "us", or "our"). Please
             read these terms of use and privacy policy carefully before using
@@ -35,9 +33,7 @@
           >
             1. Consent
           </h2>
-          <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Montserrat leading-5"
-          >
+          <p class="text-[#2C2E2F] text-[14px] md:text-[16px] leading-5">
             By accessing and using our Website, you accept and agree to be bound
             by the terms and provision of this agreement. Also, when using this
             Website’s services, you shall be subject to any posted guidelines or
@@ -50,9 +46,7 @@
           >
             2. Data Collection and Usage
           </h2>
-          <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Montserrat leading-5"
-          >
+          <p class="text-[#2C2E2F] text-[14px] md:text-[16px] leading-5">
             We collect information from you when you visit our website,
             register, fill out a form, or use other site features. The
             information collected may include your name, email address, phone
@@ -66,9 +60,7 @@
           >
             3. Use of Google Analytics
           </h2>
-          <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Montserrat leading-5"
-          >
+          <p class="text-[#2C2E2F] text-[14px] md:text-[16px] leading-5">
             Our Website uses Google Analytics, a web analytics service provided
             by Google, Inc. ("Google"). Google Analytics uses "cookies", which
             are text files placed on your computer, to help the website analyze
@@ -85,9 +77,7 @@
           >
             4. Information Storage and Security
           </h2>
-          <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Montserrat leading-5"
-          >
+          <p class="text-[#2C2E2F] text-[14px] md:text-[16px] leading-5">
             We adopt appropriate data collection, storage and processing
             practices, and security measures to protect against unauthorized
             access, alteration, disclosure or destruction of your personal
@@ -101,9 +91,7 @@
           >
             5. Data Disclosure to Third Parties
           </h2>
-          <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Montserrat leading-5"
-          >
+          <p class="text-[#2C2E2F] text-[14px] md:text-[16px] leading-5">
             We do not sell, trade, or otherwise transfer your personally
             identifiable information to outside parties, unless we provide you
             with advance notice. This does not include website hosting partners
@@ -116,9 +104,7 @@
           >
             6. Contact Form
           </h2>
-          <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Montserrat leading-5"
-          >
+          <p class="text-[#2C2E2F] text-[14px] md:text-[16px] leading-5">
             The contact form on our website is compliant with Canada's Anti-Spam
             Legislation (CASL). By filling out the contact form on our website,
             you consent to being contacted by us via the email or phone number
@@ -129,9 +115,7 @@
           >
             7. Vecteezy Credit
           </h2>
-          <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Montserrat leading-5"
-          >
+          <p class="text-[#2C2E2F] text-[14px] md:text-[16px] leading-5">
             All illustrations on this website were created by Hasan7 and are
             sourced from Vecteezy. You can find more of Hasan7's work on his
             profile:
