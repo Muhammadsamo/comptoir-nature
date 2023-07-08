@@ -10,12 +10,16 @@
         src="/termsOfUse/termsofuse.png"
       />
       <div>
-        <img
-          class="absolute top-[5px] md:top-[-30px] right-[5px] md:right-[-3px] cursor-pointer"
-          @click="emit('closeModal')"
-          src="/termsOfUse/close.svg"
-          alt="close btn"
-        />
+        <div
+          class="flex gap-[6px] text-[#8EA6A7] text-[12px] leading-5 font-Montserrat font-semibold absolute top-[5px] md:top-[-30px] right-[5px] md:right-[-3px] cursor-pointer"
+        >
+          Fermer
+          <img
+            @click="$emit('closeModal')"
+            src="/termsOfUse/close.svg"
+            alt="close btn"
+          />
+        </div>
         <h1
           class="text-[#59493C] font-Merriweather font-bold text-[20px] md:text-[24px] leading-5 my-7"
         >
