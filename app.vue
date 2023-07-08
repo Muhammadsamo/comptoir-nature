@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <TheHeader />
-    <NuxtPage />
-    <TheFooter />
+  <div class="lg:overflow-y-hidden">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </div>
 </template>
 
@@ -34,6 +34,25 @@
 .page-left-enter-to,
 .page-right-enter-to {
   transform: translateX(0);
+}
+
+/* Transitions for Modals */
+
+.slideIn-enter-from,
+.slideIn-leave-to,
+.slideIn2-leave-to {
+  transform: translate(-50%, 100%);
+}
+.slideIn2-enter-from,
+.slideIn2-leave-to {
+  transform: translateY(100%);
+}
+
+.slideIn-enter-active,
+.slideIn2-enter-active,
+.slideIn-leave-active,
+.slideIn2-leave-active {
+  transition: all 750ms ease;
 }
 
 /* width */

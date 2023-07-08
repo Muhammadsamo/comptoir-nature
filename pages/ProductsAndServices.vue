@@ -11,16 +11,12 @@
           Nos Produits
         </h1>
         <ul class="text-[#B2896B] font-bold tracking-[1.6px] text-[16px]">
-          <li class="leading-8 py-[6px] border-b border-[#B2896B]">Meubles</li>
-          <li class="leading-8 py-[6px] border-b border-[#B2896B]">Tissus</li>
-          <li class="leading-8 py-[6px] border-b border-[#B2896B]">
-            Art de la Table
-          </li>
-          <li class="leading-8 py-[6px] border-b border-[#B2896B]">
-            Luminaires
-          </li>
-          <li class="leading-8 py-[6px] border-b border-[#B2896B]">
-            Article de Décoration
+          <li
+            v-for="p in products"
+            :key="p.productTitle"
+            class="leading-8 py-[6px] border-b border-[#B2896B]"
+          >
+            {{ p.productTitle }}
           </li>
         </ul>
       </div>
@@ -51,37 +47,13 @@
           class="text-[#B2896B] font-bold tracking-[1.6px] text-[16px] leading-9"
         >
           <li
-            class="border-b border-[#B2896B] flex items-center justify-between"
+            v-for="s in services"
+            :key="s.serviceTitle"
+            @click="setActiveModal(s.serviceTitle)"
+            class="leading-8 py-[6px] border-b border-[#B2896B] flex items-center justify-between cursor-pointer"
           >
-            Listes de Mariages<span class="inline-block">
-              <img src="/productsAndServices/servicesicon.svg" />
-            </span>
-          </li>
-          <li
-            class="border-b border-[#B2896B] flex items-center justify-between"
-          >
-            Conseil en Décoration<span class="inline-block">
-              <img src="/productsAndServices/servicesicon.svg" />
-            </span>
-          </li>
-          <li
-            class="border-b border-[#B2896B] flex items-center justify-between"
-          >
-            Livraisons<span class="inline-block">
-              <img src="/productsAndServices/servicesicon.svg" />
-            </span>
-          </li>
-          <li
-            class="border-b border-[#B2896B] flex items-center justify-between"
-          >
-            Parking<span class="inline-block">
-              <img src="/productsAndServices/servicesicon.svg" />
-            </span>
-          </li>
-          <li
-            class="border-b border-[#B2896B] flex items-center justify-between"
-          >
-            Paiement en 4 Fois<span class="inline-block">
+            {{ s.serviceTitle }}
+            <span class="inline-block">
               <img src="/productsAndServices/servicesicon.svg" />
             </span>
           </li>
@@ -118,7 +90,113 @@
         Dimanche: Fermé
       </p>
     </div>
+    <Transition name="slideIn">
+      <ServiceDetailsModal
+        v-show="modalStore.modalVisible && isActive('Listes de Mariages')"
+        @closeModal="closeModal"
+        :serviceHeading="services[0].serviceTitle"
+        :serviceDesc="services[0].serviceDesc"
+      ></ServiceDetailsModal>
+    </Transition>
+    <Transition name="slideIn">
+      <ServiceDetailsModal
+        v-show="modalStore.modalVisible && isActive('Conseil en Décoration')"
+        @closeModal="closeModal"
+        :serviceHeading="services[1].serviceTitle"
+        :serviceDesc="services[1].serviceDesc"
+      ></ServiceDetailsModal>
+    </Transition>
+    <Transition name="slideIn">
+      <ServiceDetailsModal
+        v-show="modalStore.modalVisible && isActive('Livraisons')"
+        @closeModal="closeModal"
+        :serviceHeading="services[2].serviceTitle"
+        :serviceDesc="services[2].serviceDesc"
+      ></ServiceDetailsModal>
+    </Transition>
+    <Transition name="slideIn">
+      <ServiceDetailsModal
+        v-show="modalStore.modalVisible && isActive('Parking')"
+        @closeModal="closeModal"
+        :serviceHeading="services[3].serviceTitle"
+        :serviceDesc="services[3].serviceDesc"
+      ></ServiceDetailsModal>
+    </Transition>
+    <Transition name="slideIn">
+      <ServiceDetailsModal
+        v-show="modalStore.modalVisible && isActive('Paiement en 4 Fois')"
+        @closeModal="closeModal"
+        :serviceHeading="services[4].serviceTitle"
+        :serviceDesc="services[4].serviceDesc"
+      ></ServiceDetailsModal>
+    </Transition>
   </main>
 </template>
 
-<script setup></script>
+<script setup>
+import { useModalStore } from "@/stores/modal";
+
+const modalStore = useModalStore();
+const activeModal = ref("");
+
+const setActiveModal = (modal) => {
+  activeModal.value = modal;
+  modalStore.backDropVisible = true;
+  modalStore.modalVisible = true;
+};
+const isActive = (modal) => {
+  return activeModal.value === modal;
+};
+
+const closeModal = () => {
+  activeModal.value = "";
+  modalStore.backDropVisible = false;
+  modalStore.modalVisible = false;
+};
+
+const products = [
+  {
+    productTitle: "Meubles",
+  },
+  {
+    productTitle: "Tissus",
+  },
+  {
+    productTitle: "Art de la Table",
+  },
+  {
+    productTitle: "Luminaires",
+  },
+  {
+    productTitle: "Article de Décoration",
+  },
+];
+
+const services = [
+  {
+    serviceTitle: "Listes de Mariages",
+    serviceDesc:
+      "Nous proposons un service d'entretien de piscines irréprochable et adapté à vos besoins. Que vous ayez besoin d'un nettoyage régulier ou d'une maintenance saisonnière, notre équipe d'experts utilise les dernières technologies et les meilleures pratiques pour garantir que votre piscine reste propre, sûre et prête à l'usage. ",
+  },
+  {
+    serviceTitle: "Conseil en Décoration",
+    serviceDesc:
+      "Nous proposons un service d'entretien de piscines irréprochable et adapté à vos besoins. Que vous ayez besoin d'un nettoyage régulier ou d'une maintenance saisonnière, notre équipe d'experts utilise les dernières technologies et les meilleures pratiques pour garantir que votre piscine reste propre, sûre et prête à l'usage. ",
+  },
+  {
+    serviceTitle: "Livraisons",
+    serviceDesc:
+      "Nous proposons un service d'entretien de piscines irréprochable et adapté à vos besoins. Que vous ayez besoin d'un nettoyage régulier ou d'une maintenance saisonnière, notre équipe d'experts utilise les dernières technologies et les meilleures pratiques pour garantir que votre piscine reste propre, sûre et prête à l'usage. ",
+  },
+  {
+    serviceTitle: "Parking",
+    serviceDesc:
+      "Nous proposons un service d'entretien de piscines irréprochable et adapté à vos besoins. Que vous ayez besoin d'un nettoyage régulier ou d'une maintenance saisonnière, notre équipe d'experts utilise les dernières technologies et les meilleures pratiques pour garantir que votre piscine reste propre, sûre et prête à l'usage. ",
+  },
+  {
+    serviceTitle: "Paiement en 4 Fois",
+    serviceDesc:
+      "Nous proposons un service d'entretien de piscines irréprochable et adapté à vos besoins. Que vous ayez besoin d'un nettoyage régulier ou d'une maintenance saisonnière, notre équipe d'experts utilise les dernières technologies et les meilleures pratiques pour garantir que votre piscine reste propre, sûre et prête à l'usage. ",
+  },
+];
+</script>
