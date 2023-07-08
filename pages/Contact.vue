@@ -4,14 +4,15 @@
       class="grid lg:grid-cols-[2fr 1fr] min-h-[calc(100vh-160px)] items-center gap-[70px] max-w-[1440px] mx-auto"
     >
       <div
-        class="col-start-1 border border-[#B2896B] p-[10px] justify-self-end"
+        class="col-start-1 border border-[#B2896B] p-[10px] justify-self-end w-[690px] h-[400px]"
       >
-        <img
+        <GoogleMap />
+        <!-- <img
           src="/contact/map-placeholder-image.png"
           width="690"
           height="380"
           alt="Googale Map"
-        />
+        /> -->
       </div>
       <div class="col-start-2 text-[#E9E3DE] max-w-[300px]">
         <h1
