@@ -17,13 +17,13 @@
           alt="close btn"
         />
         <h1
-          class="text-[#59493C] font-Exo font-bold text-[20px] md:text-[24px] leading-7 tracking-widest my-7"
+          class="text-[#59493C] font-Merriweather font-bold text-[20px] md:text-[24px] leading-5 my-7"
         >
           Website Terms of Use and Privacy Policy
         </h1>
         <div class="overflow-y-scroll max-h-[260px] pr-[42px]">
           <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Roboto leading-6 font-light"
+            class="text-[#2C2E2F] text-[12px] md:text-[16px] font-Montserrat leading-5"
           >
             This website (the "Website") is owned and operated by [Canadian
             Consultant's Name or Company Name] ("we", "us", or "our"). Please
@@ -31,12 +31,12 @@
             our Website.
           </p>
           <h2
-            class="text-[#59493C] font-Exo font-bold text-[18px] md:text-[20px] tracking-widest my-6"
+            class="text-[#59493C] font-Merriweather font-bold text-[18px] md:text-[20px] tracking-widest my-6"
           >
             1. Consent
           </h2>
           <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Roboto leading-6 font-light"
+            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Montserrat leading-5"
           >
             By accessing and using our Website, you accept and agree to be bound
             by the terms and provision of this agreement. Also, when using this
@@ -46,12 +46,12 @@
             abide by the above, please do not use this service.
           </p>
           <h2
-            class="text-[#59493C] font-Exo font-bold text-[18px] md:text-[20px] tracking-widest my-6"
+            class="text-[#59493C] font-Merriweather font-bold text-[18px] md:text-[20px] tracking-widest my-6"
           >
             2. Data Collection and Usage
           </h2>
           <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Roboto leading-6 font-light"
+            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Montserrat leading-5"
           >
             We collect information from you when you visit our website,
             register, fill out a form, or use other site features. The
@@ -62,12 +62,12 @@
             purposes.
           </p>
           <h2
-            class="text-[#59493C] font-Exo font-bold text-[18px] md:text-[20px] tracking-widest my-6"
+            class="text-[#59493C] font-Merriweather font-bold text-[18px] md:text-[20px] tracking-widest my-6"
           >
             3. Use of Google Analytics
           </h2>
           <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Roboto leading-6 font-light"
+            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Montserrat leading-5"
           >
             Our Website uses Google Analytics, a web analytics service provided
             by Google, Inc. ("Google"). Google Analytics uses "cookies", which
@@ -81,12 +81,12 @@
             identifies you.
           </p>
           <h2
-            class="text-[#59493C] font-Exo font-bold text-[18px] md:text-[20px] tracking-widest my-6"
+            class="text-[#59493C] font-Merriweather font-bold text-[18px] md:text-[20px] tracking-widest my-6"
           >
             4. Information Storage and Security
           </h2>
           <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Roboto leading-6 font-light"
+            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Montserrat leading-5"
           >
             We adopt appropriate data collection, storage and processing
             practices, and security measures to protect against unauthorized
@@ -97,12 +97,12 @@
             systems and are required to keep the information confidential.
           </p>
           <h2
-            class="text-[#59493C] font-Exo font-bold text-[18px] md:text-[20px] tracking-widest my-6"
+            class="text-[#59493C] font-Merriweather font-bold text-[18px] md:text-[20px] tracking-widest my-6"
           >
             5. Data Disclosure to Third Parties
           </h2>
           <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Roboto leading-6 font-light"
+            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Montserrat leading-5"
           >
             We do not sell, trade, or otherwise transfer your personally
             identifiable information to outside parties, unless we provide you
@@ -112,12 +112,12 @@
             keep this information confidential.
           </p>
           <h2
-            class="text-[#59493C] font-Exo font-bold text-[18px] md:text-[20px] tracking-widest my-6"
+            class="text-[#59493C] font-Merriweather font-bold text-[18px] md:text-[20px] tracking-widest my-6"
           >
             6. Contact Form
           </h2>
           <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Roboto leading-6 font-light"
+            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Montserrat leading-5"
           >
             The contact form on our website is compliant with Canada's Anti-Spam
             Legislation (CASL). By filling out the contact form on our website,
@@ -125,12 +125,12 @@
             you provide.
           </p>
           <h2
-            class="text-[#59493C] font-Exo font-bold text-[18px] md:text-[20px] tracking-widest my-6"
+            class="text-[#59493C] font-Merriweather font-bold text-[18px] md:text-[20px] tracking-widest my-6"
           >
             7. Vecteezy Credit
           </h2>
           <p
-            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Roboto leading-6 font-light"
+            class="text-[#2C2E2F] text-[14px] md:text-[16px] font-Montserrat leading-5"
           >
             All illustrations on this website were created by Hasan7 and are
             sourced from Vecteezy. You can find more of Hasan7's work on his
