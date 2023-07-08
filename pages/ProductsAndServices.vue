@@ -1,5 +1,5 @@
 <template>
-  <main class="min-h-[calc(100vh-160px)]">
+  <main class="min-h-[calc(100vh-160px)] lg:overflow-hidden">
     <div
       class="hidden lg:grid grid-cols-3 items-center gap-x-[10px] justify-between h-full mx-auto min-h-[calc(100vh-160px)] max-w-[1440px]"
     >

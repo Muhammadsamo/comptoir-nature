@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="lg:overflow-hidden">
     <TheHeader></TheHeader>
     <slot />
     <Transition name="slideIn">

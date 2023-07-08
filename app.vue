@@ -1,5 +1,5 @@
 <template>
-  <div class="lg:overflow-y-hidden">
+  <div class="lg:overflow-hidden">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
