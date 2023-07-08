@@ -17,6 +17,7 @@
         >
       </p>
       <p
+        @click="emit('openModal')"
         class="text-[12px] leading-[28px] tracking-[1.2px] font-bold text-[#364444] cursor-pointer"
       >
         Condition Générales et Confidentialité
@@ -24,3 +25,7 @@
     </div>
   </footer>
 </template>
+
+<script setup>
+const emit = defineEmits(["openModal"]);
+</script>

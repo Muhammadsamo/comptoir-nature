@@ -136,3 +136,7 @@
     </div>
   </div>
 </template>
+
+<script setup>
+const emit = defineEmits(["openModal"]);
+</script>
