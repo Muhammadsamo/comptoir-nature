@@ -21,6 +21,7 @@
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
     "@splidejs/vue-splide": "^0.6.12",
-    "pinia": "^2.1.4"
+    "pinia": "^2.1.4",
+    "vue-gtag-next": "^1.14.0"
   }
 }

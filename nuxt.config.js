@@ -1,6 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { isProduction } from "std-env";
 export default defineNuxtConfig({
   target: "static",
+  runtimeConfig: {
+    public: {
+      google_analytics_id: process.env.google_analytics_id,
+      production_mode: isProduction,
+    },
+  },
   modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt"],
   pinia: {
     autoImports: [
