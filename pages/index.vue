@@ -42,3 +42,20 @@
     </div>
   </main>
 </template>
+
+
+<script setup>
+useHead({
+  title: "Comptoir Nature",
+  titleTemplate: "",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Welcome to Comptoir Nature, your sanctuary dedicated to the art of furniture and decoration in Guadeloupe. Immerse yourself in our unique universe where each product has a soul and where well-being is expressed through the art of living.",
+    },
+  ],
+});
+
+
+</script>

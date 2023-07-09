@@ -136,6 +136,17 @@
 <script setup>
 import { useModalStore } from "@/stores/modal";
 
+useHead({
+  title: "Produits And Services",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Chez Comptoir Nature, nous estimons que chaque client est unique, et par conséquent, votre espace devrait l'être aussi. Nous travaillons en étroite collaboration avec vous pour comprendre vos personnalités et besoins, proposant des produits qui reflètent qui vous êtes et ce que vous chérissez. Que ce soit pour embellir un intérieur ou un extérieur, notre équipe est là pour vous conseiller et vous guider. Pour aller plus loin dans cette quête de l'harmonie parfaite, notre responsable se rend à domicile, afin de vous aider à créer un univers où règne sérénité et bien-être. Venez découvrir chez Comptoir Nature un monde où l'art de vivre et l'art de l'habitat se rejoignent, pour un intérieur à votre image.",
+    },
+  ],
+});
+
 const modalStore = useModalStore();
 const activeModal = ref("");
 

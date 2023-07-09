@@ -16,7 +16,7 @@
           Fermer
           <img
             @click="$emit('closeModal')"
-            src="/termsOfUse/close.svg"
+            src="/close.svg"
             alt="close btn"
           />
         </div>

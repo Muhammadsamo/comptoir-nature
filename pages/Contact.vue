@@ -28,6 +28,7 @@
         </p>
         <div class="mt-[17px] w-full">
           <PrimaryButton
+            @click="openModal"
             class="w-full"
             buttonText="Formulaire Contact"
           ></PrimaryButton>
@@ -46,5 +47,36 @@
         </p>
       </div>
     </div>
+    <Transition name="slideIn">
+      <ContactForm
+        v-show="modalStore.modalVisible"
+        @closeModal="closeModal"
+      ></ContactForm>
+    </Transition>
   </main>
 </template>
+
+<script setup>
+import { useModalStore } from "@/stores/modal";
+useHead({
+  title: "Contact",
+  meta: [
+    {
+      name: "description",
+      content: "This is the contact page",
+    },
+  ],
+});
+
+const modalStore = useModalStore();
+
+const openModal = () => {
+  modalStore.backDropVisible = true;
+  modalStore.modalVisible = true;
+};
+
+const closeModal = () => {
+  modalStore.backDropVisible = false;
+  modalStore.modalVisible = false;
+};
+</script>

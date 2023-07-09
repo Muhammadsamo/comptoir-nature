@@ -6,7 +6,56 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+useHead({
+  head: {
+    htmlAttrs: {
+      lang: "fr",
+    },
+    link: [
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        href: "/favicon-16x16.png",
+      },
+      {
+        rel: "icon",
+        type: "image/x-icon",
+        sizes: "32x32",
+        href: "/favicon.ico",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        href: "/favicon-32x32.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: "/apple-touch-icon.png",
+      },
+      {
+        rel: "android-chrome",
+        sizes: "190x190",
+        href: "/android-chrome-192x192.png",
+      },
+      { rel: "manifest", href: "/site.webmanifest" },
+      { rel: "mask-icon", href: "/safari-pinned-tab.svg" },
+      { rel: "msapplication-Tile", href: "/mstile-150x150.png" },
+    ],
+  },
+  titleTemplate: "%s - Comptoir Nature",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Welcome to Comptoir Nature, your sanctuary dedicated to the art of furniture and decoration in Guadeloupe. Immerse yourself in our unique universe where each product has a soul and where well-being is expressed through the art of living.",
+    },
+  ],
+});
+</script>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Montserrat:wght@400;500;700&display=swap");
