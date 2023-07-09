@@ -67,7 +67,7 @@ useHead({
   position: fixed;
   left: 0;
   right: 0;
-  transition: all 750ms linear;
+  transition: all 600ms linear;
 }
 
 .page-left-enter-from,
@@ -101,7 +101,7 @@ useHead({
 .slideIn2-enter-active,
 .slideIn-leave-active,
 .slideIn2-leave-active {
-  transition: all 750ms ease;
+  transition: all 600ms ease;
 }
 
 /* width */

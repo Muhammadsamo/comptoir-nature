@@ -1,36 +1,146 @@
 <template>
-  <div class="mapouter">
-    <div class="gmap_canvas">
-      <iframe
-        width="100%"
-        height="100%"
-        id="gmap_canvas"
-        src="https://maps.google.com/maps?q=00 Rue Ferdinand Forrest (in front of La Palette) 97122 Baie-Mahault (Jarry)&t=k&z=10&ie=UTF8&iwloc=&output=embed"
-        frameborder="0"
-        scrolling="no"
-        marginheight="0"
-        marginwidth="0"
-      ></iframe
-      ><a href="https://2yu.co">2yu</a><br />
-      <a href="https://embedgooglemap.2yu.co/">html embed google map</a>
-    </div>
+  <div>
+    <GMapMap :center="center" :zoom="10" :options="mapStyle"></GMapMap>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+const center = { lat: 51.093048, lng: 6.84212 };
 
-<style scoped>
-.mapouter {
-  position: relative;
-  text-align: right;
-  height: 100%;
-  width: 100%;
-}
+const mapStyle = [
+  {
+    featureType: "all",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#ffffff",
+      },
+    ],
+  },
+  {
+    featureType: "all",
+    elementType: "labels.text.stroke",
+    stylers: [
+      {
+        visibility: "on",
+      },
+      {
+        color: "#3e606f",
+      },
+      {
+        weight: 2,
+      },
+      {
+        gamma: 0.84,
+      },
+    ],
+  },
+  {
+    featureType: "all",
+    elementType: "labels.icon",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "administrative",
+    elementType: "geometry",
+    stylers: [
+      {
+        weight: 0.6,
+      },
+      {
+        color: "#313536",
+      },
+    ],
+  },
+  {
+    featureType: "landscape",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#44a688",
+      },
+    ],
+  },
+  {
+    featureType: "poi",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#13876c",
+      },
+    ],
+  },
+  {
+    featureType: "poi.attraction",
+    elementType: "geometry.stroke",
+    stylers: [
+      {
+        color: "#f5e4e4",
+      },
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "poi.attraction",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "on",
+      },
+      {
+        lightness: "14",
+      },
+    ],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#13876c",
+      },
+      {
+        visibility: "simplified",
+      },
+    ],
+  },
+  {
+    featureType: "road",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#067372",
+      },
+      {
+        lightness: "-20",
+      },
+    ],
+  },
+  {
+    featureType: "transit",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#357374",
+      },
+    ],
+  },
+  {
+    featureType: "water",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#004757",
+      },
+    ],
+  },
+];
+</script>
 
-.gmap_canvas {
-  overflow: hidden;
-  background: none !important;
-  height: 100%;
-  width: 100%;
-}
-</style>
+<style scoped></style>

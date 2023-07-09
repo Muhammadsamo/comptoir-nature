@@ -4,8 +4,10 @@
 
 html {
   font-family: "Montserrat", "sans";
+  overflow: hidden;
 }
 
 body {
   background-color: #2d2d2d;
+  overflow: hidden;
 }

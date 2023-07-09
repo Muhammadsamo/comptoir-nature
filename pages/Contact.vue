@@ -6,7 +6,7 @@
       <div
         class="col-start-1 border border-[#B2896B] p-[10px] justify-self-end w-[690px] h-[400px]"
       >
-        <GoogleMap />
+        <GoogleMap></GoogleMap>
       </div>
       <div class="col-start-2 text-[#E9E3DE] max-w-[300px]">
         <h1
