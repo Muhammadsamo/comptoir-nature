@@ -52,7 +52,7 @@ const slides = [
 }
 .splide__arrow--prev {
   left: 91%;
-  top: 383x;
+  top: 383px;
 }
 
 .splide__arrow svg {
@@ -64,6 +64,23 @@ const slides = [
   justify-content: start;
   padding: 0;
   gap: 8px;
+}
+
+@media screen and (max-width: 1024px) {
+  .splide__pagination {
+    display: none !important;
+  }
+  .splide__arrow {
+    top: 50%;
+    background-color: transparent;
+    width: 4em;
+  }
+  .splide__arrow--next {
+    right: 0;
+  }
+  .splide__arrow--prev {
+    left: 0;
+  }
 }
 
 .splide__pagination__page {

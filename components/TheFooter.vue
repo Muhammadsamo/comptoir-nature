@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="min-h-[62px] bg-[#9A6F50] pl-[63px] pr-[86px] fixed bottom-0 w-screen"
+    class="min-h-[62px] bg-[#9A6F50] pl-[63px] pr-[86px] hidden lg:grid fixed bottom-0 w-screen"
   >
     <div class="flex justify-between items-center h-[62px]">
       <p
