@@ -91,7 +91,7 @@ import { useModalStore } from "@/stores/modal";
 
 const emit = defineEmits("closeModal");
 const modalStore = useModalStore();
-const FORMSPARK_ACTION_URL = "";
+const FORMSPARK_ACTION_URL = "https://submit-form.com/HNfDFH7f";
 
 const name = ref("");
 const organization = ref("");
