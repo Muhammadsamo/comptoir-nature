@@ -2,9 +2,6 @@
 import { isProduction } from "std-env";
 export default defineNuxtConfig({
   target: "static",
-  build: {
-    transpile: ['@fawmi/vue-google-maps']
-  },
   runtimeConfig: {
     public: {
       google_analytics_id: process.env.google_analytics_id,
