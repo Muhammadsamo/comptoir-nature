@@ -70,7 +70,7 @@
         </h3>
         <div>
           <textarea
-            class="inline-block w-[100%] h-[228px] border border-[#E1E4E7] bg-[#F7F4F2] mb-[10px] px-[14px] text-[#8A97A5] font-Roboto text-sm md:text-base leading-[19px] placeholder:text-[#8A97A5] focus:outline-none resize-none"
+            class="inline-block w-[100%] h-[228px] border border-[#E1E4E7] bg-[#F7F4F2] mb-[10px] px-[14px] pt-3 text-[#8A97A5] font-Roboto text-sm md:text-base leading-[19px] placeholder:text-[#8A97A5] focus:outline-none resize-none"
             id="message"
             name="message"
             required

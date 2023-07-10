@@ -14,9 +14,9 @@
 import { GoogleMap, Marker } from "vue3-google-map";
 
 const center = { lat: 10, lng: 10 };
-const apiKey = "AIzaSyBHNsuOrgzGSg7e_oEHoe9fKMqxyVKQUaw";
+const apiKey = "AIzaSyCE0jz3YRTCfMzWYj_3En9wXyirf4UVnAc";
 const options = {
-  mapId: "7263aa238f6e44ca ",
+  mapId: "7263aa238f6e44ca",
   styles: [
     {
       elementType: "geometry",
