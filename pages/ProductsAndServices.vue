@@ -211,3 +211,11 @@ const services = [
   },
 ];
 </script>
+
+<style scoped>
+.slideIn-enter-from,
+.slideIn-leave-to,
+.slideIn2-leave-to {
+  transform: translate(-50%, 200%);
+}
+</style>

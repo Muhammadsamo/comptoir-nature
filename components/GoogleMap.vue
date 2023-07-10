@@ -1,36 +1,236 @@
 <template>
-  <div class="mapouter">
-    <div class="gmap_canvas">
-      <iframe
-        width="100%"
-        height="100%"
-        id="gmap_canvas"
-        src="https://maps.google.com/maps?q=00 Rue Ferdinand Forrest (in front of La Palette) 97122 Baie-Mahault (Jarry)&t=k&z=10&ie=UTF8&iwloc=&output=embed"
-        frameborder="0"
-        scrolling="no"
-        marginheight="0"
-        marginwidth="0"
-      ></iframe
-      ><a href="https://2yu.co">2yu</a><br />
-      <a href="https://embedgooglemap.2yu.co/">html embed google map</a>
-    </div>
-  </div>
+  <GoogleMap
+    :api-key="apiKey"
+    :options="options"
+    style="width: 670px; height: 380px"
+    :center="center"
+    :zoom="15"
+  >
+    <Marker :options="{ position: center }" />
+  </GoogleMap>
 </template>
 
-<script setup></script>
+<script setup>
+import { GoogleMap, Marker } from "vue3-google-map";
 
-<style scoped>
-.mapouter {
-  position: relative;
-  text-align: right;
-  height: 100%;
-  width: 100%;
-}
-
-.gmap_canvas {
-  overflow: hidden;
-  background: none !important;
-  height: 100%;
-  width: 100%;
-}
-</style>
+const center = { lat: 10, lng: 10 };
+const apiKey = "AIzaSyBHNsuOrgzGSg7e_oEHoe9fKMqxyVKQUaw";
+const options = {
+  mapId: "7263aa238f6e44ca ",
+  styles: [
+    {
+      elementType: "geometry",
+      stylers: [
+        {
+          color: "#ebe3cd",
+        },
+      ],
+    },
+    {
+      elementType: "labels.text.fill",
+      stylers: [
+        {
+          color: "#523735",
+        },
+      ],
+    },
+    {
+      elementType: "labels.text.stroke",
+      stylers: [
+        {
+          color: "#f5f1e6",
+        },
+      ],
+    },
+    {
+      featureType: "administrative",
+      elementType: "geometry.stroke",
+      stylers: [
+        {
+          color: "#c9b2a6",
+        },
+      ],
+    },
+    {
+      featureType: "administrative.land_parcel",
+      elementType: "geometry.stroke",
+      stylers: [
+        {
+          color: "#dcd2be",
+        },
+      ],
+    },
+    {
+      featureType: "administrative.land_parcel",
+      elementType: "labels.text.fill",
+      stylers: [
+        {
+          color: "#ae9e90",
+        },
+      ],
+    },
+    {
+      featureType: "landscape.natural",
+      elementType: "geometry",
+      stylers: [
+        {
+          color: "#dfd2ae",
+        },
+      ],
+    },
+    {
+      featureType: "poi",
+      elementType: "geometry",
+      stylers: [
+        {
+          color: "#dfd2ae",
+        },
+      ],
+    },
+    {
+      featureType: "poi",
+      elementType: "labels.text.fill",
+      stylers: [
+        {
+          color: "#93817c",
+        },
+      ],
+    },
+    {
+      featureType: "poi.park",
+      elementType: "geometry.fill",
+      stylers: [
+        {
+          color: "#a5b076",
+        },
+      ],
+    },
+    {
+      featureType: "poi.park",
+      elementType: "labels.text.fill",
+      stylers: [
+        {
+          color: "#447530",
+        },
+      ],
+    },
+    {
+      featureType: "road",
+      elementType: "geometry",
+      stylers: [
+        {
+          color: "#f5f1e6",
+        },
+      ],
+    },
+    {
+      featureType: "road.arterial",
+      elementType: "geometry",
+      stylers: [
+        {
+          color: "#fdfcf8",
+        },
+      ],
+    },
+    {
+      featureType: "road.highway",
+      elementType: "geometry",
+      stylers: [
+        {
+          color: "#f8c967",
+        },
+      ],
+    },
+    {
+      featureType: "road.highway",
+      elementType: "geometry.stroke",
+      stylers: [
+        {
+          color: "#e9bc62",
+        },
+      ],
+    },
+    {
+      featureType: "road.highway.controlled_access",
+      elementType: "geometry",
+      stylers: [
+        {
+          color: "#e98d58",
+        },
+      ],
+    },
+    {
+      featureType: "road.highway.controlled_access",
+      elementType: "geometry.stroke",
+      stylers: [
+        {
+          color: "#db8555",
+        },
+      ],
+    },
+    {
+      featureType: "road.local",
+      elementType: "labels.text.fill",
+      stylers: [
+        {
+          color: "#806b63",
+        },
+      ],
+    },
+    {
+      featureType: "transit.line",
+      elementType: "geometry",
+      stylers: [
+        {
+          color: "#dfd2ae",
+        },
+      ],
+    },
+    {
+      featureType: "transit.line",
+      elementType: "labels.text.fill",
+      stylers: [
+        {
+          color: "#8f7d77",
+        },
+      ],
+    },
+    {
+      featureType: "transit.line",
+      elementType: "labels.text.stroke",
+      stylers: [
+        {
+          color: "#ebe3cd",
+        },
+      ],
+    },
+    {
+      featureType: "transit.station",
+      elementType: "geometry",
+      stylers: [
+        {
+          color: "#dfd2ae",
+        },
+      ],
+    },
+    {
+      featureType: "water",
+      elementType: "geometry.fill",
+      stylers: [
+        {
+          color: "#b9d3c2",
+        },
+      ],
+    },
+    {
+      featureType: "water",
+      elementType: "labels.text.fill",
+      stylers: [
+        {
+          color: "#92998d",
+        },
+      ],
+    },
+  ],
+};
+</script>
