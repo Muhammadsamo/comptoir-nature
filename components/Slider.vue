@@ -47,6 +47,7 @@ const slides = [
   top: 382px;
   background-color: transparent;
   width: 1em;
+  display: none;
 }
 .splide__arrow--next {
   right: 0;
@@ -62,7 +63,7 @@ const slides = [
 
 .splide__pagination {
   bottom: -30px;
-  justify-content: start;
+  justify-content: center;
   padding: 0;
   gap: 8px;
 }

@@ -3,14 +3,20 @@
     class="min-h-[calc(100vh-160px)] pt-[35px] lg:pt-[100px] px-3 pb-4 lg:pb-0"
   >
     <div
-      class="grid lg:grid-cols-2 min-h-[calc(100vh-160px)] lg:pt-0 justify-items-center items-center lg:gap-[100px] max-w-[1440px] mx-auto"
+      class="grid lg:grid-cols-2 min-h-[calc(100vh-160px)] lg:pt-0 justify-items-center lg:justify-items-start items-center lg:gap-[100px] max-w-[1440px] mx-auto"
     >
       <div
-        class="lg:col-start-1 border border-[#B2896B] py-[2px] lg:px-[3px] lg:pt-[5px] pb-[0] lg:justify-self-end h-[250px] lg:min-h-[367px] lg:max-h-[367px] max-w-[510px] overflow-y-hidden"
+        class="lg:col-start-1 lg:justify-self-end overflow-y-hidden h-[250px] lg:min-h-[400px]"
       >
-        <Slider />
+        <div
+          class="border border-[#B2896B] py-[2px] lg:px-[3px] lg:pt-[5px] pb-[0] h-[250px] lg:min-h-[367px] lg:max-h-[367px] max-w-[510px]"
+        >
+          <Slider />
+        </div>
       </div>
-      <div class="lg:col-start-2 font-Montserrat text-[#E9E3DE] max-w-[414px]">
+      <div
+        class="lg:col-start-2 font-Montserrat text-[#E9E3DE] lg:h-[400px] max-w-[414px]"
+      >
         <h1
           class="font-Merriweather text-[24px] lg:text-[28px] text-center pt-8 lg:pt-0 lg:text-start leading-[32px] tracking-[2.8px]"
         >
