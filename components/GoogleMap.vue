@@ -5,7 +5,7 @@
     :styles="options.styles"
     style="width: 670px; height: 380px"
     :center="center"
-    :zoom="10"
+    :zoom="15"
   >
     <Marker :options="{ position: center }" />
   </GoogleMap>
@@ -14,7 +14,7 @@
 <script setup>
 import { GoogleMap, Marker } from "vue3-google-map";
 
-const center = { lat: 24.7999999, lng: 67 };
+const center = { lat: 16.241375, lng: -61.568889 };
 const apiKey = "AIzaSyCE0jz3YRTCfMzWYj_3En9wXyirf4UVnAc";
 const options = {
   mapId: "7263aa238f6e44ca",

@@ -6,7 +6,7 @@
       class="grid lg:grid-cols-2 min-h-[calc(100vh-160px)] lg:pt-0 justify-items-center items-center lg:gap-[100px] max-w-[1440px] mx-auto"
     >
       <div
-        class="lg:col-start-1 border border-[#B2896B] py-[2px] lg:px-[3px] lg:pt-[5px] pb-[0] lg:justify-self-end h-[250px] lg:min-h-[367px] lg:max-h-[367px] max-w-[510px]"
+        class="lg:col-start-1 border border-[#B2896B] py-[2px] lg:px-[3px] lg:pt-[5px] pb-[0] lg:justify-self-end h-[250px] lg:min-h-[367px] lg:max-h-[367px] max-w-[510px] overflow-y-hidden"
       >
         <Slider />
       </div>
