@@ -77,14 +77,17 @@ const slides = [
   }
   .splide__arrow {
     top: 50%;
-    background-color: transparent;
-    width: 4em;
   }
   .splide__arrow--next {
     right: 0;
   }
   .splide__arrow--prev {
     left: 0;
+  }
+  .splide__arrow svg,
+  .splide__arrow {
+    height: 4em;
+    width: 4em;
   }
 }
 

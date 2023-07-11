@@ -27,9 +27,7 @@
           unique où chaque produit a une âme et où le bien-être s'exprime à
           travers l'art de l'habitat.
         </p>
-        <div
-          class="flex lg:ml-4 justify-between lg:gap-[22px] mt-[46px] lg:mt-[54px]"
-        >
+        <div class="flex justify-between lg:gap-[22px] mt-[46px] lg:mt-[54px]">
           <NuxtLink
             to="/contact"
             alt="contact page link"
@@ -47,7 +45,7 @@
             class="w-[48%]"
             ><PrimaryButton
               buttonText="Instagram"
-              class="ml-22px w-[100%]"
+              class="ml-22px w-[100%] lg:w-auto"
             ></PrimaryButton
           ></NuxtLink>
 
