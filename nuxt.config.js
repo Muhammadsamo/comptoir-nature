@@ -8,7 +8,7 @@ export default defineNuxtConfig({
       production_mode: isProduction,
     },
   },
-  modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt"],
+  modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt", '@nuxtjs/pwa'],
   pinia: {
     autoImports: [
       // automatically imports `defineStore`
