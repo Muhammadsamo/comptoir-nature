@@ -1,14 +1,14 @@
-import { version, defineAsyncComponent, getCurrentInstance, inject, ref, watchEffect, watch, defineComponent, computed, h, resolveComponent, useSSRContext, createApp, reactive, unref, mergeProps, withCtx, createVNode, createTextVNode, hasInjectionContext, provide, onErrorCaptured, onServerPrefetch, resolveDynamicComponent, toRef, shallowRef, isReadonly, isRef, effectScope, markRaw, isShallow, isReactive, toRaw, nextTick, Suspense, Transition } from 'vue';
+import { version, defineAsyncComponent, hasInjectionContext, getCurrentInstance, inject, ref, watchEffect, watch, createApp, reactive, unref, effectScope, isRef, isReactive, toRaw, useSSRContext, getCurrentScope, onScopeDispose, nextTick, provide, onErrorCaptured, onServerPrefetch, createVNode, resolveDynamicComponent, toRef, shallowRef, computed, isReadonly, toRefs, markRaw, isShallow, mergeProps, withCtx, defineComponent, h, Suspense, Transition } from 'vue';
 import { $fetch } from 'ofetch';
 import { createHooks } from 'hookable';
 import { getContext, executeAsync } from 'unctx';
-import { createMemoryHistory, createRouter, START_LOCATION, RouterView } from 'vue-router';
+import { createMemoryHistory, createRouter, START_LOCATION, useRoute as useRoute$1, RouterView } from 'vue-router';
 import { createError as createError$1, sanitizeStatusCode } from 'h3';
-import { hasProtocol, parseURL, parseQuery, withTrailingSlash, withoutTrailingSlash, withQuery, joinURL } from 'ufo';
+import { withQuery, hasProtocol, parseURL, joinURL } from 'ufo';
 import { renderSSRHead } from '@unhead/ssr';
-import { getActiveHead, createServerHead as createServerHead$1 } from 'unhead';
+import { composableNames, getActiveHead, createServerHead as createServerHead$1 } from 'unhead';
 import { defineHeadPlugin } from '@unhead/shared';
-import { ssrRenderAttrs, ssrRenderComponent, ssrRenderAttr, ssrRenderSuspense, ssrRenderVNode } from 'vue/server-renderer';
+import { ssrRenderSuspense, ssrRenderComponent, ssrRenderVNode, ssrRenderAttrs } from 'vue/server-renderer';
 import { defu } from 'defu';
 import { a as useRuntimeConfig$1 } from '../nitro/netlify.mjs';
 import 'node-fetch-native/polyfill';
@@ -312,7 +312,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/Contact-8bbd92a8.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/Contact-7ebc7357.mjs').then((m) => m.default || m)
   },
   {
     name: "ProductsAndServices",
@@ -320,7 +320,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/ProductsAndServices-06e05657.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/ProductsAndServices-c1eb94c7.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -328,10 +328,11 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/index-a21a64bb.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/index-c8f00386.mjs').then((m) => m.default || m)
   }
 ];
 const appHead = { "meta": [{ "name": "viewport", "content": "width=device-width, initial-scale=1" }, { "charset": "utf-8" }], "link": [], "style": [], "script": [], "noscript": [] };
+const appLayoutTransition = false;
 const appPageTransition = false;
 const appKeepalive = false;
 const routerOptions0 = {
@@ -493,203 +494,17 @@ function useHead(input, options = {}) {
     return isBrowser ? clientUseHead(input, options) : serverUseHead(input, options);
   }
 }
+const coreComposableNames = [
+  "injectHead"
+];
+({
+  "@unhead/vue": [...coreComposableNames, ...composableNames]
+});
 function definePayloadReducer(name, reduce) {
   {
     useNuxtApp().ssrContext._payloadReducers[name] = reduce;
   }
 }
-const firstNonUndefined = (...args) => args.find((arg) => arg !== void 0);
-const DEFAULT_EXTERNAL_REL_ATTRIBUTE = "noopener noreferrer";
-/*! @__NO_SIDE_EFFECTS__ */
-function defineNuxtLink(options) {
-  const componentName = options.componentName || "NuxtLink";
-  const resolveTrailingSlashBehavior = (to, resolve) => {
-    if (!to || options.trailingSlash !== "append" && options.trailingSlash !== "remove") {
-      return to;
-    }
-    const normalizeTrailingSlash = options.trailingSlash === "append" ? withTrailingSlash : withoutTrailingSlash;
-    if (typeof to === "string") {
-      return normalizeTrailingSlash(to, true);
-    }
-    const path = "path" in to ? to.path : resolve(to).path;
-    return {
-      ...to,
-      name: void 0,
-      // named routes would otherwise always override trailing slash behavior
-      path: normalizeTrailingSlash(path, true)
-    };
-  };
-  return /* @__PURE__ */ defineComponent({
-    name: componentName,
-    props: {
-      // Routing
-      to: {
-        type: [String, Object],
-        default: void 0,
-        required: false
-      },
-      href: {
-        type: [String, Object],
-        default: void 0,
-        required: false
-      },
-      // Attributes
-      target: {
-        type: String,
-        default: void 0,
-        required: false
-      },
-      rel: {
-        type: String,
-        default: void 0,
-        required: false
-      },
-      noRel: {
-        type: Boolean,
-        default: void 0,
-        required: false
-      },
-      // Prefetching
-      prefetch: {
-        type: Boolean,
-        default: void 0,
-        required: false
-      },
-      noPrefetch: {
-        type: Boolean,
-        default: void 0,
-        required: false
-      },
-      // Styling
-      activeClass: {
-        type: String,
-        default: void 0,
-        required: false
-      },
-      exactActiveClass: {
-        type: String,
-        default: void 0,
-        required: false
-      },
-      prefetchedClass: {
-        type: String,
-        default: void 0,
-        required: false
-      },
-      // Vue Router's `<RouterLink>` additional props
-      replace: {
-        type: Boolean,
-        default: void 0,
-        required: false
-      },
-      ariaCurrentValue: {
-        type: String,
-        default: void 0,
-        required: false
-      },
-      // Edge cases handling
-      external: {
-        type: Boolean,
-        default: void 0,
-        required: false
-      },
-      // Slot API
-      custom: {
-        type: Boolean,
-        default: void 0,
-        required: false
-      }
-    },
-    setup(props, { slots }) {
-      const router = useRouter();
-      const to = computed(() => {
-        const path = props.to || props.href || "";
-        return resolveTrailingSlashBehavior(path, router.resolve);
-      });
-      const isExternal = computed(() => {
-        if (props.external) {
-          return true;
-        }
-        if (props.target && props.target !== "_self") {
-          return true;
-        }
-        if (typeof to.value === "object") {
-          return false;
-        }
-        return to.value === "" || hasProtocol(to.value, { acceptRelative: true });
-      });
-      const prefetched = ref(false);
-      const el = void 0;
-      const elRef = void 0;
-      return () => {
-        var _a, _b;
-        if (!isExternal.value) {
-          const routerLinkProps = {
-            ref: elRef,
-            to: to.value,
-            activeClass: props.activeClass || options.activeClass,
-            exactActiveClass: props.exactActiveClass || options.exactActiveClass,
-            replace: props.replace,
-            ariaCurrentValue: props.ariaCurrentValue,
-            custom: props.custom
-          };
-          if (!props.custom) {
-            if (prefetched.value) {
-              routerLinkProps.class = props.prefetchedClass || options.prefetchedClass;
-            }
-            routerLinkProps.rel = props.rel;
-          }
-          return h(
-            resolveComponent("RouterLink"),
-            routerLinkProps,
-            slots.default
-          );
-        }
-        const href = typeof to.value === "object" ? ((_a = router.resolve(to.value)) == null ? void 0 : _a.href) ?? null : to.value || null;
-        const target = props.target || null;
-        const rel = props.noRel ? null : firstNonUndefined(props.rel, options.externalRelAttribute, href ? DEFAULT_EXTERNAL_REL_ATTRIBUTE : "") || null;
-        const navigate = () => navigateTo(href, { replace: props.replace });
-        if (props.custom) {
-          if (!slots.default) {
-            return null;
-          }
-          return slots.default({
-            href,
-            navigate,
-            get route() {
-              if (!href) {
-                return void 0;
-              }
-              const url = parseURL(href);
-              return {
-                path: url.pathname,
-                fullPath: url.pathname,
-                get query() {
-                  return parseQuery(url.search);
-                },
-                hash: url.hash,
-                // stub properties for compat with vue-router
-                params: {},
-                name: void 0,
-                matched: [],
-                redirectedFrom: void 0,
-                meta: {},
-                href
-              };
-            },
-            rel,
-            target,
-            isExternal: isExternal.value,
-            isActive: false,
-            isExactActive: false
-          });
-        }
-        return h("a", { ref: el, href, rel, target }, (_b = slots.default) == null ? void 0 : _b.call(slots));
-      };
-    }
-  });
-}
-const __nuxt_component_0$1 = /* @__PURE__ */ defineNuxtLink({ componentName: "NuxtLink" });
 const page_45global = /* @__PURE__ */ defineNuxtRouteMiddleware((to, from) => {
   if (from.path === "/" || from.path === "/ProductsAndServices" && to.path === "/Contact") {
     to.meta.pageTransition = { name: "page-left" };
@@ -859,10 +674,15 @@ const isVue2 = false;
   * (c) 2023 Eduardo San Martin Morote
   * @license MIT
   */
+let activePinia;
+const setActivePinia = (pinia) => activePinia = pinia;
 const piniaSymbol = (
   /* istanbul ignore next */
   Symbol()
 );
+function isPlainObject(o) {
+  return o && typeof o === "object" && Object.prototype.toString.call(o) === "[object Object]" && typeof o.toJSON !== "function";
+}
 var MutationType;
 (function(MutationType2) {
   MutationType2["direct"] = "direct";
@@ -876,6 +696,7 @@ function createPinia() {
   let toBeInstalled = [];
   const pinia = markRaw({
     install(app) {
+      setActivePinia(pinia);
       {
         pinia._a = app;
         app.provide(piniaSymbol, pinia);
@@ -902,9 +723,302 @@ function createPinia() {
   });
   return pinia;
 }
+const noop = () => {
+};
+function addSubscription(subscriptions, callback, detached, onCleanup = noop) {
+  subscriptions.push(callback);
+  const removeSubscription = () => {
+    const idx = subscriptions.indexOf(callback);
+    if (idx > -1) {
+      subscriptions.splice(idx, 1);
+      onCleanup();
+    }
+  };
+  if (!detached && getCurrentScope()) {
+    onScopeDispose(removeSubscription);
+  }
+  return removeSubscription;
+}
+function triggerSubscriptions(subscriptions, ...args) {
+  subscriptions.slice().forEach((callback) => {
+    callback(...args);
+  });
+}
+const fallbackRunWithContext = (fn) => fn();
+function mergeReactiveObjects(target, patchToApply) {
+  if (target instanceof Map && patchToApply instanceof Map) {
+    patchToApply.forEach((value, key) => target.set(key, value));
+  }
+  if (target instanceof Set && patchToApply instanceof Set) {
+    patchToApply.forEach(target.add, target);
+  }
+  for (const key in patchToApply) {
+    if (!patchToApply.hasOwnProperty(key))
+      continue;
+    const subPatch = patchToApply[key];
+    const targetValue = target[key];
+    if (isPlainObject(targetValue) && isPlainObject(subPatch) && target.hasOwnProperty(key) && !isRef(subPatch) && !isReactive(subPatch)) {
+      target[key] = mergeReactiveObjects(targetValue, subPatch);
+    } else {
+      target[key] = subPatch;
+    }
+  }
+  return target;
+}
+const skipHydrateSymbol = (
+  /* istanbul ignore next */
+  Symbol()
+);
+function shouldHydrate(obj) {
+  return !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol);
+}
+const { assign } = Object;
+function isComputed(o) {
+  return !!(isRef(o) && o.effect);
+}
+function createOptionsStore(id, options, pinia, hot) {
+  const { state, actions, getters } = options;
+  const initialState = pinia.state.value[id];
+  let store;
+  function setup() {
+    if (!initialState && (!("production" !== "production") )) {
+      {
+        pinia.state.value[id] = state ? state() : {};
+      }
+    }
+    const localState = toRefs(pinia.state.value[id]);
+    return assign(localState, actions, Object.keys(getters || {}).reduce((computedGetters, name) => {
+      computedGetters[name] = markRaw(computed(() => {
+        setActivePinia(pinia);
+        const store2 = pinia._s.get(id);
+        return getters[name].call(store2, store2);
+      }));
+      return computedGetters;
+    }, {}));
+  }
+  store = createSetupStore(id, setup, options, pinia, hot, true);
+  return store;
+}
+function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) {
+  let scope;
+  const optionsForPlugin = assign({ actions: {} }, options);
+  const $subscribeOptions = {
+    deep: true
+    // flush: 'post',
+  };
+  let isListening;
+  let isSyncListening;
+  let subscriptions = [];
+  let actionSubscriptions = [];
+  let debuggerEvents;
+  const initialState = pinia.state.value[$id];
+  if (!isOptionsStore && !initialState && (!("production" !== "production") )) {
+    {
+      pinia.state.value[$id] = {};
+    }
+  }
+  ref({});
+  let activeListener;
+  function $patch(partialStateOrMutator) {
+    let subscriptionMutation;
+    isListening = isSyncListening = false;
+    if (typeof partialStateOrMutator === "function") {
+      partialStateOrMutator(pinia.state.value[$id]);
+      subscriptionMutation = {
+        type: MutationType.patchFunction,
+        storeId: $id,
+        events: debuggerEvents
+      };
+    } else {
+      mergeReactiveObjects(pinia.state.value[$id], partialStateOrMutator);
+      subscriptionMutation = {
+        type: MutationType.patchObject,
+        payload: partialStateOrMutator,
+        storeId: $id,
+        events: debuggerEvents
+      };
+    }
+    const myListenerId = activeListener = Symbol();
+    nextTick().then(() => {
+      if (activeListener === myListenerId) {
+        isListening = true;
+      }
+    });
+    isSyncListening = true;
+    triggerSubscriptions(subscriptions, subscriptionMutation, pinia.state.value[$id]);
+  }
+  const $reset = isOptionsStore ? function $reset2() {
+    const { state } = options;
+    const newState = state ? state() : {};
+    this.$patch(($state) => {
+      assign($state, newState);
+    });
+  } : (
+    /* istanbul ignore next */
+    noop
+  );
+  function $dispose() {
+    scope.stop();
+    subscriptions = [];
+    actionSubscriptions = [];
+    pinia._s.delete($id);
+  }
+  function wrapAction(name, action) {
+    return function() {
+      setActivePinia(pinia);
+      const args = Array.from(arguments);
+      const afterCallbackList = [];
+      const onErrorCallbackList = [];
+      function after(callback) {
+        afterCallbackList.push(callback);
+      }
+      function onError(callback) {
+        onErrorCallbackList.push(callback);
+      }
+      triggerSubscriptions(actionSubscriptions, {
+        args,
+        name,
+        store,
+        after,
+        onError
+      });
+      let ret;
+      try {
+        ret = action.apply(this && this.$id === $id ? this : store, args);
+      } catch (error) {
+        triggerSubscriptions(onErrorCallbackList, error);
+        throw error;
+      }
+      if (ret instanceof Promise) {
+        return ret.then((value) => {
+          triggerSubscriptions(afterCallbackList, value);
+          return value;
+        }).catch((error) => {
+          triggerSubscriptions(onErrorCallbackList, error);
+          return Promise.reject(error);
+        });
+      }
+      triggerSubscriptions(afterCallbackList, ret);
+      return ret;
+    };
+  }
+  const partialStore = {
+    _p: pinia,
+    // _s: scope,
+    $id,
+    $onAction: addSubscription.bind(null, actionSubscriptions),
+    $patch,
+    $reset,
+    $subscribe(callback, options2 = {}) {
+      const removeSubscription = addSubscription(subscriptions, callback, options2.detached, () => stopWatcher());
+      const stopWatcher = scope.run(() => watch(() => pinia.state.value[$id], (state) => {
+        if (options2.flush === "sync" ? isSyncListening : isListening) {
+          callback({
+            storeId: $id,
+            type: MutationType.direct,
+            events: debuggerEvents
+          }, state);
+        }
+      }, assign({}, $subscribeOptions, options2)));
+      return removeSubscription;
+    },
+    $dispose
+  };
+  const store = reactive(partialStore);
+  pinia._s.set($id, store);
+  const runWithContext = pinia._a && pinia._a.runWithContext || fallbackRunWithContext;
+  const setupStore = pinia._e.run(() => {
+    scope = effectScope();
+    return runWithContext(() => scope.run(setup));
+  });
+  for (const key in setupStore) {
+    const prop = setupStore[key];
+    if (isRef(prop) && !isComputed(prop) || isReactive(prop)) {
+      if (!isOptionsStore) {
+        if (initialState && shouldHydrate(prop)) {
+          if (isRef(prop)) {
+            prop.value = initialState[key];
+          } else {
+            mergeReactiveObjects(prop, initialState[key]);
+          }
+        }
+        {
+          pinia.state.value[$id][key] = prop;
+        }
+      }
+    } else if (typeof prop === "function") {
+      const actionValue = wrapAction(key, prop);
+      {
+        setupStore[key] = actionValue;
+      }
+      optionsForPlugin.actions[key] = prop;
+    } else ;
+  }
+  {
+    assign(store, setupStore);
+    assign(toRaw(store), setupStore);
+  }
+  Object.defineProperty(store, "$state", {
+    get: () => pinia.state.value[$id],
+    set: (state) => {
+      $patch(($state) => {
+        assign($state, state);
+      });
+    }
+  });
+  pinia._p.forEach((extender) => {
+    {
+      assign(store, scope.run(() => extender({
+        store,
+        app: pinia._a,
+        pinia,
+        options: optionsForPlugin
+      })));
+    }
+  });
+  if (initialState && isOptionsStore && options.hydrate) {
+    options.hydrate(store.$state, initialState);
+  }
+  isListening = true;
+  isSyncListening = true;
+  return store;
+}
+function defineStore(idOrOptions, setup, setupOptions) {
+  let id;
+  let options;
+  const isSetupStore = typeof setup === "function";
+  if (typeof idOrOptions === "string") {
+    id = idOrOptions;
+    options = isSetupStore ? setupOptions : setup;
+  } else {
+    options = idOrOptions;
+    id = idOrOptions.id;
+  }
+  function useStore(pinia, hot) {
+    const hasContext = hasInjectionContext();
+    pinia = // in test mode, ignore the argument provided as we can always retrieve a
+    // pinia instance with getActivePinia()
+    (pinia) || (hasContext ? inject(piniaSymbol, null) : null);
+    if (pinia)
+      setActivePinia(pinia);
+    pinia = activePinia;
+    if (!pinia._s.has(id)) {
+      if (isSetupStore) {
+        createSetupStore(id, setup, options, pinia);
+      } else {
+        createOptionsStore(id, options, pinia);
+      }
+    }
+    const store = pinia._s.get(id);
+    return store;
+  }
+  useStore.$id = id;
+  return useStore;
+}
 const plugin = /* @__PURE__ */ defineNuxtPlugin((nuxtApp) => {
   const pinia = createPinia();
   nuxtApp.vueApp.use(pinia);
+  setActivePinia(pinia);
   {
     nuxtApp.payload.pinia = pinia.state.value;
   }
@@ -931,19 +1045,19 @@ const revive_payload_server_699ZCUunvA = /* @__PURE__ */ defineNuxtPlugin({
     }
   }
 });
-const LazyGoogleMap = defineAsyncComponent(() => import('./_nuxt/GoogleMap-1e54c878.mjs').then((r) => r.default));
-const LazyPrimaryButton = defineAsyncComponent(() => import('./_nuxt/PrimaryButton-6d63f26b.mjs').then((r) => r.default));
-const LazyServiceDetailsModal = defineAsyncComponent(() => import('./_nuxt/ServiceDetailsModal-5496ed91.mjs').then((r) => r.default));
-const LazySlider = defineAsyncComponent(() => import('./_nuxt/Slider-6b4568e6.mjs').then((r) => r.default));
-const LazyTermsOfUse = defineAsyncComponent(() => import('./_nuxt/TermsOfUse-5897359e.mjs').then((r) => r.default));
-const LazyTheFooter = defineAsyncComponent(() => Promise.resolve().then(function() {
-  return TheFooter;
-}).then((r) => r.default));
-const LazyTheHeader = defineAsyncComponent(() => Promise.resolve().then(function() {
-  return TheHeader;
-}).then((r) => r.default));
+const LazyContactForm = defineAsyncComponent(() => import('./_nuxt/ContactForm-b5a81a9f.mjs').then((r) => r.default));
+const LazyGoogleMap = defineAsyncComponent(() => import('./_nuxt/GoogleMap-ad9607d8.mjs').then((r) => r.default));
+const LazyMobileContact = defineAsyncComponent(() => import('./_nuxt/MobileContact-0d6d71a4.mjs').then((r) => r.default));
+const LazyPrimaryButton = defineAsyncComponent(() => import('./_nuxt/PrimaryButton-370e82ae.mjs').then((r) => r.default));
+const LazyServiceDetailsModal = defineAsyncComponent(() => import('./_nuxt/ServiceDetailsModal-750f5421.mjs').then((r) => r.default));
+const LazySlider = defineAsyncComponent(() => import('./_nuxt/Slider-47ea969b.mjs').then((r) => r.default));
+const LazyTermsOfUse = defineAsyncComponent(() => import('./_nuxt/TermsOfUse-170ada40.mjs').then((r) => r.default));
+const LazyTheFooter = defineAsyncComponent(() => import('./_nuxt/TheFooter-4244cc01.mjs').then((r) => r.default));
+const LazyTheHeader = defineAsyncComponent(() => import('./_nuxt/TheHeader-37726bca.mjs').then((r) => r.default));
 const lazyGlobalComponents = [
+  ["ContactForm", LazyContactForm],
   ["GoogleMap", LazyGoogleMap],
+  ["MobileContact", LazyMobileContact],
   ["PrimaryButton", LazyPrimaryButton],
   ["ServiceDetailsModal", LazyServiceDetailsModal],
   ["Slider", LazySlider],
@@ -987,117 +1101,81 @@ const plugins = [
   components_plugin_KR1HBZs4kY,
   unhead_6CIXkUzmoe
 ];
-const _imports_0 = "" + __publicAssetsURL("header/logo.svg");
-const _imports_1 = "" + __publicAssetsURL("header/instaLogo.svg");
-const _export_sfc = (sfc, props) => {
-  const target = sfc.__vccOpts || sfc;
-  for (const [key, val] of props) {
-    target[key] = val;
+const _wrapIf = (component, props, slots) => {
+  props = props === true ? {} : props;
+  return { default: () => {
+    var _a;
+    return props ? h(component, props, slots) : (_a = slots.default) == null ? void 0 : _a.call(slots);
+  } };
+};
+const layouts = {
+  default: /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/default-a1c30514.mjs').then((m) => m.default || m))
+};
+const LayoutMetaSymbol = Symbol("layout-meta");
+const __nuxt_component_0 = /* @__PURE__ */ defineComponent({
+  name: "NuxtLayout",
+  inheritAttrs: false,
+  props: {
+    name: {
+      type: [String, Boolean, Object],
+      default: null
+    }
+  },
+  setup(props, context) {
+    const nuxtApp = useNuxtApp();
+    const injectedRoute = inject("_route");
+    const route = injectedRoute === useRoute() ? useRoute$1() : injectedRoute;
+    const layout = computed(() => unref(props.name) ?? route.meta.layout ?? "default");
+    const layoutRef = ref();
+    context.expose({ layoutRef });
+    return () => {
+      const done = nuxtApp.deferHydration();
+      const hasLayout = layout.value && layout.value in layouts;
+      const transitionProps = route.meta.layoutTransition ?? appLayoutTransition;
+      return _wrapIf(Transition, hasLayout && transitionProps, {
+        default: () => h(Suspense, { suspensible: true, onResolve: () => {
+          nextTick(done);
+        } }, {
+          default: () => _wrapIf(LayoutProvider, hasLayout && {
+            layoutProps: mergeProps(context.attrs, { ref: layoutRef }),
+            key: layout.value,
+            name: layout.value,
+            shouldProvide: !props.name,
+            hasTransition: !!transitionProps
+          }, context.slots).default()
+        })
+      }).default();
+    };
   }
-  return target;
-};
-const _sfc_main$4 = {};
-function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs) {
-  const _component_nuxt_link = __nuxt_component_0$1;
-  _push(`<header${ssrRenderAttrs(mergeProps({ class: "bg-[#2D2D2D] pl-[63px] pr-[86px] pt-[45px] h-[100px] flex justify-between w-screen fixed" }, _attrs))}><div>`);
-  _push(ssrRenderComponent(_component_nuxt_link, {
-    class: "logo",
-    to: "/",
-    alt: "homepage"
-  }, {
-    default: withCtx((_, _push2, _parent2, _scopeId) => {
-      if (_push2) {
-        _push2(`<img${ssrRenderAttr("src", _imports_0)}${_scopeId}>`);
-      } else {
-        return [
-          createVNode("img", { src: _imports_0 })
-        ];
-      }
-    }),
-    _: 1
-  }, _parent));
-  _push(`</div><nav class="min-w-[400px]"><ul class="text-[#E9E3DE] flex justify-between items-center w-full">`);
-  _push(ssrRenderComponent(_component_nuxt_link, {
-    class: "py-[6px]",
-    to: "/"
-  }, {
-    default: withCtx((_, _push2, _parent2, _scopeId) => {
-      if (_push2) {
-        _push2(`<li${_scopeId}>Accueil</li>`);
-      } else {
-        return [
-          createVNode("li", null, "Accueil")
-        ];
-      }
-    }),
-    _: 1
-  }, _parent));
-  _push(`<li>`);
-  _push(ssrRenderComponent(_component_nuxt_link, {
-    class: "py-[6px]",
-    to: "/ProductsAndServices",
-    alt: "products page"
-  }, {
-    default: withCtx((_, _push2, _parent2, _scopeId) => {
-      if (_push2) {
-        _push2(`Produits and Services`);
-      } else {
-        return [
-          createTextVNode("Produits and Services")
-        ];
-      }
-    }),
-    _: 1
-  }, _parent));
-  _push(`</li><li>`);
-  _push(ssrRenderComponent(_component_nuxt_link, {
-    class: "py-[6px]",
-    to: "/Contact",
-    alt: "contact page"
-  }, {
-    default: withCtx((_, _push2, _parent2, _scopeId) => {
-      if (_push2) {
-        _push2(`Contact`);
-      } else {
-        return [
-          createTextVNode("Contact")
-        ];
-      }
-    }),
-    _: 1
-  }, _parent));
-  _push(`</li><li>`);
-  _push(ssrRenderComponent(_component_nuxt_link, {
-    to: "https://www.instagram.com/deco_comptoirnature",
-    target: "_blank",
-    alt: "instagram link"
-  }, {
-    default: withCtx((_, _push2, _parent2, _scopeId) => {
-      if (_push2) {
-        _push2(`<img${ssrRenderAttr("src", _imports_1)} alt="instagram icon"${_scopeId}>`);
-      } else {
-        return [
-          createVNode("img", {
-            src: _imports_1,
-            alt: "instagram icon"
-          })
-        ];
-      }
-    }),
-    _: 1
-  }, _parent));
-  _push(`</li></ul></nav></header>`);
-}
-const _sfc_setup$4 = _sfc_main$4.setup;
-_sfc_main$4.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/TheHeader.vue");
-  return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
-};
-const __nuxt_component_0 = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["ssrRender", _sfc_ssrRender$2]]);
-const TheHeader = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  default: __nuxt_component_0
+});
+const LayoutProvider = /* @__PURE__ */ defineComponent({
+  name: "NuxtLayoutProvider",
+  inheritAttrs: false,
+  props: {
+    name: {
+      type: String
+    },
+    layoutProps: {
+      type: Object
+    },
+    hasTransition: {
+      type: Boolean
+    },
+    shouldProvide: {
+      type: Boolean
+    }
+  },
+  setup(props, context) {
+    if (props.shouldProvide) {
+      const name = props.name;
+      provide(LayoutMetaSymbol, {
+        isCurrent: (route) => name === (route.meta.layout ?? "default")
+      });
+    }
+    return () => {
+      return h(layouts[props.name], props.layoutProps, context.slots);
+    };
+  }
 });
 const interpolatePath = (route, match) => {
   return match.path.replace(/(:\w+)\([^)]+\)/g, "$1").replace(/(:\w+)[?+*]/g, "$1").replace(/:\w+/g, (r) => {
@@ -1116,14 +1194,6 @@ const generateRouteKey = (routeProps, override) => {
 const wrapInKeepAlive = (props, children) => {
   return { default: () => children };
 };
-const _wrapIf = (component, props, slots) => {
-  props = props === true ? {} : props;
-  return { default: () => {
-    var _a;
-    return props ? h(component, props, slots) : (_a = slots.default) == null ? void 0 : _a.call(slots);
-  } };
-};
-const LayoutMetaSymbol = Symbol("layout-meta");
 const __nuxt_component_1 = /* @__PURE__ */ defineComponent({
   name: "NuxtPage",
   inheritAttrs: false,
@@ -1221,57 +1291,84 @@ const RouteProvider = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_main$3 = {};
-function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs) {
-  const _component_NuxtLink = __nuxt_component_0$1;
-  _push(`<footer${ssrRenderAttrs(mergeProps({ class: "min-h-[62px] bg-[#9A6F50] pl-[63px] pr-[86px] fixed bottom-0 w-screen" }, _attrs))}><div class="flex justify-between items-center h-[62px]"><p class="text-[12px] leading-[28px] tracking-[1.2px] font-bold text-[#2D2D2D]"><span class="text-[#364444]">ComptoirNature.net</span> - Tous droits réservés. Site internet réalisé par `);
-  _push(ssrRenderComponent(_component_NuxtLink, {
-    to: "https://www.vancleem.com",
-    target: "_blank",
-    class: "text-[#364444]"
-  }, {
-    default: withCtx((_, _push2, _parent2, _scopeId) => {
-      if (_push2) {
-        _push2(` vanCleem.com`);
-      } else {
-        return [
-          createTextVNode(" vanCleem.com")
-        ];
-      }
-    }),
-    _: 1
-  }, _parent));
-  _push(`</p><p class="text-[12px] leading-[28px] tracking-[1.2px] font-bold text-[#364444] cursor-pointer"> Condition Générales et Confidentialité </p></div></footer>`);
-}
-const _sfc_setup$3 = _sfc_main$3.setup;
-_sfc_main$3.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/TheFooter.vue");
-  return _sfc_setup$3 ? _sfc_setup$3(props, ctx) : void 0;
+const _sfc_main$2 = {
+  __name: "app",
+  __ssrInlineRender: true,
+  setup(__props) {
+    useHead({
+      head: {
+        htmlAttrs: {
+          lang: "fr"
+        },
+        link: [
+          {
+            rel: "icon",
+            type: "image/png",
+            sizes: "16x16",
+            href: "/favicon-16x16.png"
+          },
+          {
+            rel: "icon",
+            type: "image/x-icon",
+            sizes: "32x32",
+            href: "/favicon.ico"
+          },
+          {
+            rel: "icon",
+            type: "image/png",
+            sizes: "32x32",
+            href: "/favicon-32x32.png"
+          },
+          {
+            rel: "apple-touch-icon",
+            sizes: "180x180",
+            href: "/apple-touch-icon.png"
+          },
+          {
+            rel: "android-chrome",
+            sizes: "190x190",
+            href: "/android-chrome-192x192.png"
+          },
+          { rel: "manifest", href: "/site.webmanifest" },
+          { rel: "mask-icon", href: "/safari-pinned-tab.svg" },
+          { rel: "msapplication-Tile", href: "/mstile-150x150.png" }
+        ]
+      },
+      titleTemplate: "%s - Comptoir Nature",
+      meta: [
+        {
+          name: "description",
+          content: "Welcome to Comptoir Nature, your sanctuary dedicated to the art of furniture and decoration in Guadeloupe. Immerse yourself in our unique universe where each product has a soul and where well-being is expressed through the art of living."
+        }
+      ]
+    });
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_NuxtLayout = __nuxt_component_0;
+      const _component_NuxtPage = __nuxt_component_1;
+      _push(`<div${ssrRenderAttrs(mergeProps({ class: "lg:overflow-hidden" }, _attrs))}>`);
+      _push(ssrRenderComponent(_component_NuxtLayout, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_component_NuxtPage, null, null, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_component_NuxtPage)
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+    };
+  }
 };
-const __nuxt_component_2 = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["ssrRender", _sfc_ssrRender$1]]);
-const TheFooter = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  default: __nuxt_component_2
-});
-const _sfc_main$2 = {};
-function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
-  const _component_TheHeader = __nuxt_component_0;
-  const _component_NuxtPage = __nuxt_component_1;
-  const _component_TheFooter = __nuxt_component_2;
-  _push(`<div${ssrRenderAttrs(_attrs)}>`);
-  _push(ssrRenderComponent(_component_TheHeader, null, null, _parent));
-  _push(ssrRenderComponent(_component_NuxtPage, { class: "pt-[100px]" }, null, _parent));
-  _push(ssrRenderComponent(_component_TheFooter, null, null, _parent));
-  _push(`</div>`);
-}
 const _sfc_setup$2 = _sfc_main$2.setup;
 _sfc_main$2.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("app.vue");
   return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : void 0;
 };
-const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["ssrRender", _sfc_ssrRender]]);
+const AppComponent = _sfc_main$2;
 const _sfc_main$1 = {
   __name: "nuxt-error-page",
   __ssrInlineRender: true,
@@ -1293,8 +1390,8 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/error-404-1561d23c.mjs').then((r) => r.default || r));
-    const _Error = /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/error-500-d0588304.mjs').then((r) => r.default || r));
+    const _Error404 = /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/error-404-335ebf08.mjs').then((r) => r.default || r));
+    const _Error = /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/error-500-6024cfc4.mjs').then((r) => r.default || r));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ statusCode: unref(statusCode), statusMessage: unref(statusMessage), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
@@ -1379,5 +1476,5 @@ let entry;
 }
 const entry$1 = (ctx) => entry(ctx);
 
-export { _export_sfc as _, __nuxt_component_0$1 as a, createError as c, entry$1 as default, useHead as u };
+export { useRouter as a, createError as c, defineStore as d, entry$1 as default, navigateTo as n, useHead as u };
 //# sourceMappingURL=server.mjs.map
