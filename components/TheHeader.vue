@@ -1,6 +1,6 @@
 <template>
   <header
-    class="bg-[#2D2D2D] pl-[63px] pr-[86px] pt-[45px] h-[100px] flex justify-center lg:justify-between w-screen fixed"
+    class="bg-[#2D2D2D] pl-[63px] pr-[86px] pt-[28px] lg:pt-[45px] h-[100px] flex justify-center lg:justify-between w-screen lg:fixed"
   >
     <div>
       <nuxt-link class="logo" to="/" alt="homepage"

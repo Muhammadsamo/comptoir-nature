@@ -1,16 +1,18 @@
 <template>
-  <main class="min-h-[calc(100vh-160px)] pt-[100px] px-3">
+  <main
+    class="min-h-[calc(100vh-160px)] pt-[35px] lg:pt-[100px] px-3 pb-4 lg:pb-0"
+  >
     <div
-      class="grid lg:grid-cols-2 min-h-[calc(100vh-160px)] pt-9 lg:pt-0 justify-items-center items-center lg:gap-[100px] max-w-[1440px] mx-auto"
+      class="grid lg:grid-cols-2 min-h-[calc(100vh-160px)] lg:pt-0 justify-items-center items-center lg:gap-[100px] max-w-[1440px] mx-auto"
     >
       <div
-        class="lg:col-start-1 border border-[#B2896B] px-[3px] pt-[5px] pb-[0] lg:justify-self-end lg:max-h-[367px] max-w-[510px]"
+        class="lg:col-start-1 border border-[#B2896B] py-[2px] lg:px-[3px] lg:pt-[5px] pb-[0] lg:justify-self-end h-[250px] lg:min-h-[367px] lg:max-h-[367px] max-w-[510px]"
       >
-        <ClientOnly><Slider /></ClientOnly>
+        <Slider />
       </div>
       <div class="lg:col-start-2 font-Montserrat text-[#E9E3DE] max-w-[414px]">
         <h1
-          class="font-Merriweather text-[28px] text-center pt-8 lg:pt-0 lg:text-start leading-[32px] tracking-[2.8px]"
+          class="font-Merriweather text-[24px] lg:text-[28px] text-center pt-8 lg:pt-0 lg:text-start leading-[32px] tracking-[2.8px]"
         >
           Votre Boutique de Meubles et Décoration
         </h1>
@@ -19,24 +21,42 @@
         >
           à Jarry, en Guadeloupe
         </h2>
-        <p class="text-base mt-[21px] text-center lg:text-start">
+        <p class="text-base mt-[21px] text-center lg:text-start opacity-75">
           Bienvenue chez Comptoir Nature, votre sanctuaire dédié à l'art du
           meuble et de la décoration en Guadeloupe. Plongez dans notre univers
           unique où chaque produit a une âme et où le bien-être s'exprime à
           travers l'art de l'habitat.
         </p>
-        <div class="flex ml-4 gap-[22px] mt-[54px]">
-          <NuxtLink to="/contact" alt="contact page link"
+        <div
+          class="flex lg:ml-4 justify-between lg:gap-[22px] mt-[46px] lg:mt-[54px]"
+        >
+          <NuxtLink
+            to="/contact"
+            alt="contact page link"
+            class="hidden lg:inline-block"
             ><PrimaryButton buttonText="Nous Localiser"></PrimaryButton
           ></NuxtLink>
+          <PrimaryButton
+            @click="openContactModal"
+            buttonText="Contact"
+            class="lg:hidden w-[48%]"
+          ></PrimaryButton>
           <NuxtLink
             to="https://www.instagram.com/deco_comptoirnature"
             target="_blank"
+            class="w-[48%]"
             ><PrimaryButton
               buttonText="Instagram"
-              class="ml-22px"
+              class="ml-22px w-[100%]"
             ></PrimaryButton
           ></NuxtLink>
+
+          <Transition name="pageInRight">
+            <MobileContact
+              v-show="modalStore.modalVisible"
+              @closeModal="closeModal"
+            ></MobileContact>
+          </Transition>
         </div>
       </div>
     </div>
@@ -44,6 +64,8 @@
 </template>
 
 <script setup>
+import { useModalStore } from "@/stores/modal";
+
 useHead({
   title: "Comptoir Nature",
   titleTemplate: "",
@@ -55,4 +77,28 @@ useHead({
     },
   ],
 });
+const modalStore = useModalStore();
+
+const openContactModal = () => {
+  modalStore.modalVisible = true;
+};
+
+const closeModal = () => {
+  modalStore.modalVisible = false;
+};
 </script>
+
+<style scoped>
+.pageInRight-enter-active,
+.pageInRight-leave-active {
+  position: fixed;
+  left: 0;
+  right: 0;
+  transition: all 600ms linear;
+}
+
+.pageInRight-leave-to,
+.pageInRight-enter-from {
+  transform: translateX(100%);
+}
+</style>

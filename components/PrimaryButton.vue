@@ -1,6 +1,7 @@
 <template>
   <span
-    class="inline-block min-w-[169px] h-[50px] lg:min-w-[103px] lg:h-[39px] bg-[#4C6061] py-[9px] px-[18px] text-sm md:text-base text-[#E9E3DE] text-center font-Exo font-bold tracking-widest leading-[22px] cursor-pointer"
+    :class="class"
+    class="inline-block lg:max-w-0 lg:min-w-[103px] bg-[#4C6061] py-[16px] lg:py-[9px] px-[18px] text-[16px] text-[#E9E3DE] text-center font-Merriweather font-bold tracking-[1.6px] cursor-pointer"
   >
     {{ buttonText }}
   </span>
@@ -9,5 +10,6 @@
 <script setup>
 const props = defineProps({
   buttonText: String,
+  class: String,
 });
 </script>

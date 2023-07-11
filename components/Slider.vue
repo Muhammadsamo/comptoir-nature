@@ -16,6 +16,7 @@
         target="_blank"
       >
         <img
+          class="hero-slide-img"
           :src="slide.img"
           alt="Hero Slider image"
           width="510"
@@ -67,6 +68,10 @@ const slides = [
 }
 
 @media screen and (max-width: 1024px) {
+  .hero-slide-img {
+    height: 248px;
+  }
+
   .splide__pagination {
     display: none !important;
   }
