@@ -1,7 +1,7 @@
 <template>
   <GoogleMap
     :api-key="apiKey"
-    :options="options"
+    :options="options.styles"
     style="width: 670px; height: 380px"
     :center="center"
     :zoom="10"

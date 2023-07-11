@@ -43,7 +43,7 @@
             abide by the above, please do not use this service.
           </p>
           <h3
-            class="text-[#59493C] font-Merriweather font-bold text-[16px] md:text-[20px] tracking-widest my-6"
+            class="text-[#59493C] font-Merriweather font-bold text-[12px] md:text-[20px] tracking-widest my-6"
           >
             Heading 2
           </h3>
