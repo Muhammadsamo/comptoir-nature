@@ -22,19 +22,6 @@ export default defineNuxtConfig({
     dirs: ["~/components"],
   },
 
-  image: {
-    provider: "ipx",
-    dir: "./",
-    presets: {
-      cover: {
-        modifiers: {
-          fit: "cover",
-          format: "webp",
-        },
-      },
-    },
-  },
-
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
   postcss: {

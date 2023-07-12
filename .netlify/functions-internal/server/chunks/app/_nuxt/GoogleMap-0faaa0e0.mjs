@@ -78,6 +78,7 @@ const apiKey = "AIzaSyCE0jz3YRTCfMzWYj_3En9wXyirf4UVnAc";
 const _sfc_main = {
   __name: "GoogleMap",
   __ssrInlineRender: true,
+  props: ["lat", "long"],
   setup(__props) {
     const center = { lat: 16.241375, lng: -61.568889 };
     const options = {
@@ -333,4 +334,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=GoogleMap-ad9607d8.mjs.map
+//# sourceMappingURL=GoogleMap-0faaa0e0.mjs.map

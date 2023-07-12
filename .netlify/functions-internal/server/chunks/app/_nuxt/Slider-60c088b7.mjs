@@ -2784,16 +2784,8 @@ const SplideSlide = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_re
 const _sfc_main = {
   __name: "Slider",
   __ssrInlineRender: true,
+  props: ["slides"],
   setup(__props) {
-    const slides = [
-      { key: 1, img: "/home/hero-img.png" },
-      { key: 2, img: "/home/hero-img.png" },
-      { key: 3, img: "/home/hero-img.png" },
-      { key: 4, img: "/home/hero-img.png" },
-      { key: 5, img: "/home/hero-img.png" },
-      { key: 6, img: "/home/hero-img.png" },
-      { key: 7, img: "/home/hero-img.png" }
-    ];
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLink = __nuxt_component_0;
       _push(ssrRenderComponent(unref(Splide), mergeProps({
@@ -2809,9 +2801,9 @@ const _sfc_main = {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(`<!--[-->`);
-            ssrRenderList(slides, (slide) => {
+            ssrRenderList(__props.slides, (slide) => {
               _push2(ssrRenderComponent(unref(SplideSlide), {
-                key: slide.key
+                key: slide.PortfolioId
               }, {
                 default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                   if (_push3) {
@@ -2822,12 +2814,12 @@ const _sfc_main = {
                     }, {
                       default: withCtx((_3, _push4, _parent4, _scopeId3) => {
                         if (_push4) {
-                          _push4(`<img class="hero-slide-img"${ssrRenderAttr("src", slide.img)} alt="Hero Slider image" width="510" height="367"${_scopeId3}>`);
+                          _push4(`<img class="hero-slide-img"${ssrRenderAttr("src", slide.Image)} alt="Hero Slider image" width="510" height="367"${_scopeId3}>`);
                         } else {
                           return [
                             createVNode("img", {
                               class: "hero-slide-img",
-                              src: slide.img,
+                              src: slide.Image,
                               alt: "Hero Slider image",
                               width: "510",
                               height: "367"
@@ -2847,7 +2839,7 @@ const _sfc_main = {
                         default: withCtx(() => [
                           createVNode("img", {
                             class: "hero-slide-img",
-                            src: slide.img,
+                            src: slide.Image,
                             alt: "Hero Slider image",
                             width: "510",
                             height: "367"
@@ -2864,9 +2856,9 @@ const _sfc_main = {
             _push2(`<!--]-->`);
           } else {
             return [
-              (openBlock(), createBlock(Fragment, null, renderList(slides, (slide) => {
-                return createVNode(unref(SplideSlide), {
-                  key: slide.key
+              (openBlock(true), createBlock(Fragment, null, renderList(__props.slides, (slide) => {
+                return openBlock(), createBlock(unref(SplideSlide), {
+                  key: slide.PortfolioId
                 }, {
                   default: withCtx(() => [
                     createVNode(_component_NuxtLink, {
@@ -2877,7 +2869,7 @@ const _sfc_main = {
                       default: withCtx(() => [
                         createVNode("img", {
                           class: "hero-slide-img",
-                          src: slide.img,
+                          src: slide.Image,
                           alt: "Hero Slider image",
                           width: "510",
                           height: "367"
@@ -2888,7 +2880,7 @@ const _sfc_main = {
                   ]),
                   _: 2
                 }, 1024);
-              }), 64))
+              }), 128))
             ];
           }
         }),
@@ -2905,4 +2897,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=Slider-47ea969b.mjs.map
+//# sourceMappingURL=Slider-60c088b7.mjs.map

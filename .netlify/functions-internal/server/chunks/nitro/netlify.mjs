@@ -526,9 +526,11 @@ const errorHandler = (async function errorhandler(error, event) {
   event.node.res.end(html);
 });
 
+const _lazy_5w4ckx = () => import('../_..._.mjs');
 const _lazy_mzWxck = () => import('../handlers/renderer.mjs').then(function (n) { return n.r; });
 
 const handlers = [
+  { route: '/api/**', handler: _lazy_5w4ckx, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_error', handler: _lazy_mzWxck, lazy: true, middleware: false, method: undefined },
   { route: '/**', handler: _lazy_mzWxck, lazy: true, middleware: false, method: undefined }
 ];

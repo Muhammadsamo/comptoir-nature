@@ -1,7 +1,7 @@
 <template>
   <div class="lg:overflow-hidden">
     <NuxtLayout>
-      <NuxtPage />
+      <NuxtPage :keepalive="{}" />
     </NuxtLayout>
   </div>
 </template>

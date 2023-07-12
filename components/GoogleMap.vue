@@ -14,6 +14,8 @@
 <script setup>
 import { GoogleMap, Marker } from "vue3-google-map";
 
+const props = defineProps(["lat", "long"]);
+
 const center = { lat: 16.241375, lng: -61.568889 };
 const apiKey = "AIzaSyCE0jz3YRTCfMzWYj_3En9wXyirf4UVnAc";
 const options = {

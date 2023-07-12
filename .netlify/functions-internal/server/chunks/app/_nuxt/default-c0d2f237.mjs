@@ -1,5 +1,5 @@
 import __nuxt_component_0 from './TheHeader-37726bca.mjs';
-import _sfc_main$1 from './TermsOfUse-170ada40.mjs';
+import _sfc_main$1 from './TermsOfUse-fe558663.mjs';
 import _sfc_main$2 from './TheFooter-4244cc01.mjs';
 import { mergeProps, unref, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderSlot, ssrRenderStyle } from 'vue/server-renderer';
@@ -70,4 +70,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=default-a1c30514.mjs.map
+//# sourceMappingURL=default-c0d2f237.mjs.map
