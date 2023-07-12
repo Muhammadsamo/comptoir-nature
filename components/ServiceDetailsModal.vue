@@ -7,18 +7,14 @@
     >
       <img
         class="w-[192px] h-[208px] -translate-x-[38px] -translate-y-[34px]"
-        src="/ServiceDetailsModal/ServiceDetailsModalImg.png"
+        :src="serviceImage"
       />
       <div>
         <div
           class="flex gap-[6px] text-[#8EA6A7] text-[12px] leading-5 font-Montserrat font-semibold absolute top-[5px] md:top-[-30px] right-[5px] md:right-[-3px] cursor-pointer"
         >
           Fermer
-          <img
-            @click="$emit('closeModal')"
-            src="/close.svg"
-            alt="close btn"
-          />
+          <img @click="$emit('closeModal')" src="/close.svg" alt="close btn" />
         </div>
         <h3
           class="font-Merriweather text-xl font-bold tracking-widest text-[#59493C]"
@@ -40,5 +36,6 @@ const emit = defineEmits(["closeModal"]);
 const props = defineProps({
   serviceHeading: String,
   serviceDesc: String,
+  serviceImage: String,
 });
 </script>

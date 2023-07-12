@@ -9,7 +9,7 @@
     }"
     aria-label="Hero Slider"
   >
-    <SplideSlide v-for="slide in slides" :key="slide.key">
+    <SplideSlide v-for="slide in slides" :key="slide.PortfolioId">
       <NuxtLink
         to="https://www.instagram.com/deco_comptoirnature"
         alt="Instagram Link"
@@ -17,7 +17,7 @@
       >
         <img
           class="hero-slide-img"
-          :src="slide.img"
+          :src="slide.Image"
           alt="Hero Slider image"
           width="510"
           height="367"
@@ -31,15 +31,7 @@
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
 
-const slides = [
-  { key: 1, img: "/home/hero-img.png" },
-  { key: 2, img: "/home/hero-img.png" },
-  { key: 3, img: "/home/hero-img.png" },
-  { key: 4, img: "/home/hero-img.png" },
-  { key: 5, img: "/home/hero-img.png" },
-  { key: 6, img: "/home/hero-img.png" },
-  { key: 7, img: "/home/hero-img.png" },
-];
+const props = defineProps(["slides"]);
 </script>
 
 <style>

@@ -312,7 +312,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/Contact-7ebc7357.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/Contact-af060d8c.mjs').then((m) => m.default || m)
   },
   {
     name: "ProductsAndServices",
@@ -320,7 +320,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/ProductsAndServices-c1eb94c7.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/ProductsAndServices-052f3064.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -328,7 +328,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/index-c8f00386.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/index-652c466f.mjs').then((m) => m.default || m)
   }
 ];
 const appHead = { "meta": [{ "name": "viewport", "content": "width=device-width, initial-scale=1" }, { "charset": "utf-8" }], "link": [], "style": [], "script": [], "noscript": [] };
@@ -1046,12 +1046,12 @@ const revive_payload_server_699ZCUunvA = /* @__PURE__ */ defineNuxtPlugin({
   }
 });
 const LazyContactForm = defineAsyncComponent(() => import('./_nuxt/ContactForm-b5a81a9f.mjs').then((r) => r.default));
-const LazyGoogleMap = defineAsyncComponent(() => import('./_nuxt/GoogleMap-ad9607d8.mjs').then((r) => r.default));
+const LazyGoogleMap = defineAsyncComponent(() => import('./_nuxt/GoogleMap-0faaa0e0.mjs').then((r) => r.default));
 const LazyMobileContact = defineAsyncComponent(() => import('./_nuxt/MobileContact-0d6d71a4.mjs').then((r) => r.default));
 const LazyPrimaryButton = defineAsyncComponent(() => import('./_nuxt/PrimaryButton-370e82ae.mjs').then((r) => r.default));
-const LazyServiceDetailsModal = defineAsyncComponent(() => import('./_nuxt/ServiceDetailsModal-750f5421.mjs').then((r) => r.default));
-const LazySlider = defineAsyncComponent(() => import('./_nuxt/Slider-47ea969b.mjs').then((r) => r.default));
-const LazyTermsOfUse = defineAsyncComponent(() => import('./_nuxt/TermsOfUse-170ada40.mjs').then((r) => r.default));
+const LazyServiceDetailsModal = defineAsyncComponent(() => import('./_nuxt/ServiceDetailsModal-2ffb1f01.mjs').then((r) => r.default));
+const LazySlider = defineAsyncComponent(() => import('./_nuxt/Slider-60c088b7.mjs').then((r) => r.default));
+const LazyTermsOfUse = defineAsyncComponent(() => import('./_nuxt/TermsOfUse-fe558663.mjs').then((r) => r.default));
 const LazyTheFooter = defineAsyncComponent(() => import('./_nuxt/TheFooter-4244cc01.mjs').then((r) => r.default));
 const LazyTheHeader = defineAsyncComponent(() => import('./_nuxt/TheHeader-37726bca.mjs').then((r) => r.default));
 const lazyGlobalComponents = [
@@ -1109,7 +1109,7 @@ const _wrapIf = (component, props, slots) => {
   } };
 };
 const layouts = {
-  default: /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/default-a1c30514.mjs').then((m) => m.default || m))
+  default: /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/default-c0d2f237.mjs').then((m) => m.default || m))
 };
 const LayoutMetaSymbol = Symbol("layout-meta");
 const __nuxt_component_0 = /* @__PURE__ */ defineComponent({
@@ -1349,10 +1349,10 @@ const _sfc_main$2 = {
       _push(ssrRenderComponent(_component_NuxtLayout, null, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(ssrRenderComponent(_component_NuxtPage, null, null, _parent2, _scopeId));
+            _push2(ssrRenderComponent(_component_NuxtPage, { keepalive: {} }, null, _parent2, _scopeId));
           } else {
             return [
-              createVNode(_component_NuxtPage)
+              createVNode(_component_NuxtPage, { keepalive: {} })
             ];
           }
         }),
