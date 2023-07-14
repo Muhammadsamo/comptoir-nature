@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   target: "static",
   runtimeConfig: {
     public: {
-      google_analytics_id: process.env.google_analytics_id,
+      google_analytics_id: process.env.GOOGLE_ANALYTICS_ID,
       production_mode: isProduction,
     },
   },
