@@ -1,6 +1,6 @@
 const interopDefault = r => r.default || r || [];
 const styles = {
-  "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js": () => import('./_nuxt/entry-styles.8da8f368.mjs').then(interopDefault),
+  "node_modules/.pnpm/nuxt@3.6.1_@types+node@18.16.19/node_modules/nuxt/dist/app/entry.js": () => import('./_nuxt/entry-styles.b3bf4342.mjs').then(interopDefault),
   "pages/ProductsAndServices.vue": () => import('./_nuxt/ProductsAndServices-styles.0d3e6a68.mjs').then(interopDefault),
   "pages/index.vue": () => import('./_nuxt/index-styles.ee59b629.mjs').then(interopDefault),
   "components/Slider.vue": () => import('./_nuxt/Slider-styles.5f9bf1e8.mjs').then(interopDefault),

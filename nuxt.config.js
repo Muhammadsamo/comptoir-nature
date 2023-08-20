@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { isProduction } from "std-env";
 export default defineNuxtConfig({
-  target: "static",
   runtimeConfig: {
     public: {
       google_analytics_id: process.env.GOOGLE_ANALYTICS_ID,
